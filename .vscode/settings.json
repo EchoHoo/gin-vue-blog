@@ -1,0 +1,26 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "gvb",
+            "database": "gvb_db",
+            "username": "root",
+            "password": "123456"
+        },
+        {
+            "window.zoomLevel": 0,
+            "go.docsTool": "gogetdoc",
+            "go.formatTool": "goimports",
+            "explorer.confirmDelete": false,
+            "go.lintFlags": ["--disable=varcheck", "--enable=errcheck"]
+        }
+    ]
+    
+}

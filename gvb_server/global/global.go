@@ -1,0 +1,23 @@
+package global
+
+import (
+	"gvb_server/gvb_server/config"
+
+	"github.com/cc14514/go-geoip2"
+	"github.com/go-redis/redis"
+	"github.com/olivere/elastic/v7"
+	"github.com/sirupsen/logrus"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+)
+
+// 全局变量，配置好的，在main.go中初始化
+var (
+	Config   *config.Config
+	DB       *gorm.DB
+	Log      *logrus.Logger
+	MysqlLog logger.Interface
+	Redis    *redis.Client
+	ESClient *elastic.Client
+	AddrDB   *geoip2.DBReader
+)
