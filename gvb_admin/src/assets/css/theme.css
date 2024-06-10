@@ -1,0 +1,14 @@
+:root{
+    --gb: #f0eeee;
+    --order:#f0eeee;
+    --slide:#2b3539;
+    --text: #252424
+}
+.dark{
+    --bg: #3c3b3b;
+    --order: #656464;
+    --slide: #1c1a1a;
+    --text: #cfcfcc
+}
+
+
