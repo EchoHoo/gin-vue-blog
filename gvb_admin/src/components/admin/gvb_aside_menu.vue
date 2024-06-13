@@ -1,18 +1,22 @@
 <template>
-    <a-menu v-model:selectedKeys="selectedKeys" mode="inline" theme="dark" :inline-collapsed="false">
-        <template v-for="menu in data.menuList" :key="menu.id">
-            <a-menu-item :key="menu.id" v-if="menu.children.length === 0">
+    <a-menu v-model:selectedKeys="selectedKeys"
+            mode="inline" theme="dark"
+            :inline-collapsed="false"
+            @click="goto"
+    >
+        <template v-for="menu in data.menuList" :key="menu.name">
+            <a-menu-item :key="menu.name" v-if="menu.children.length === 0">
                 <template #icon>
                     <i :class="'fa ' + menu.icon"></i>
                 </template>
                 <span>{{ menu.title }}</span>
             </a-menu-item>
-            <a-sub-menu :key="menu.id" v-else>
+            <a-sub-menu :key="menu.name" v-else>
                 <template #icon>
                     <i :class="'fa ' + menu.icon"></i>
                 </template>
                 <template #title>{{ menu.title }}</template>
-                <a-menu-item  v-for="sub_menu in menu.children" :key="sub_menu.id">
+                <a-menu-item  v-for="sub_menu in menu.children" :key="sub_menu.name">
                     <template #icon>
                         <i :class="'fa ' + sub_menu.icon"></i>
                     </template>
@@ -26,8 +30,9 @@
 
 <script setup>
 import { reactive, ref } from 'vue';
-const selectedKeys = ref(["1"]);
+import {useRouter} from "vue-router";
 
+const selectedKeys = ref(["1"]);
 const data = reactive({
     menuList: [{
         id: 1,
@@ -48,12 +53,6 @@ const data = reactive({
                 title: "用户管理", // 菜单标题
                 name: "user_list",    // 路由名称
             },
-            {
-                id: 4,
-                icon: "fa-user-plus", // 菜单图标
-                title: "添加用户", // 菜单标题
-                name: "user_create",    // 路由名称
-            },
         ]
     },
     {
@@ -66,13 +65,21 @@ const data = reactive({
                 id: 6,
                 icon: "fa-cog", // 菜单图标
                 title: "系统配置", // 菜单标题
-                name: "user_list",    // 路由名称
+                name: "system_list",    // 路由名称
             },
 
         ]
     },
     ]
 })
+const router = useRouter()
+function goto(event){
+  router.push({
+    name: event.key
+  })
+
+}
+
 </script>
 
 <style scoped></style>

@@ -28,7 +28,9 @@
       <div class="tabs"></div>
       <main>
         <div class="gvb_view">
-          <router-view/>
+          <div class="gvb_view">
+            <router-view/>
+          </div>
         </div>
       </main>
     </div>
@@ -103,6 +105,10 @@ import {ref} from "vue";
     main{
       background: var(--bg);
       height: calc(100vh - 90px);
+      padding: 20px;
+      .gvb_view{
+
+      }
     }
   }
 }

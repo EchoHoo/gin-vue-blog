@@ -1,14 +1,16 @@
 :root{
-    --gb: #f0eeee;
+    --bg: #f0eeee;
     --order:#f0eeee;
     --slide:#2b3539;
-    --text: #252424
+    --text: #252424;
+    --active:#1782FFFF
 }
 .dark{
-    --bg: #3c3b3b;
+    --bg: #535353;
     --order: #656464;
     --slide: #1c1a1a;
-    --text: #cfcfcc
+    --text: #cfcfcc;
+    --active:#1782FFFF
 }
 
 

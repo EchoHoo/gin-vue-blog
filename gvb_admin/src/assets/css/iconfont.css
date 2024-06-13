@@ -1,10 +1,8 @@
-/*@import url("http://at.alicdn.com/t/c/font_4538371_m6htdea0jh.css");*/
-
 @font-face {
   font-family: "iconfont"; /* Project id 4538371 */
-  src: url('//at.alicdn.com/t/c/font_4538371_m6htdea0jh.woff2?t=1715182125366') format('woff2'),
-       url('//at.alicdn.com/t/c/font_4538371_m6htdea0jh.woff?t=1715182125366') format('woff'),
-       url('//at.alicdn.com/t/c/font_4538371_m6htdea0jh.ttf?t=1715182125366') format('truetype');
+  src: url('//at.alicdn.com/t/c/font_4538371_r7bm678qfue.woff2?t=1718290288996') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4538371_r7bm678qfue.woff?t=1718290288996') format('woff'),
+       url('//at.alicdn.com/t/c/font_4538371_r7bm678qfue.ttf?t=1718290288996') format('truetype');
 }
 
 .iconfont {
@@ -13,6 +11,26 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-xiaoxitongji:before {
+  content: "\e9a0";
+}
+
+.icon-denglutongji:before {
+  content: "\e68e";
+}
+
+.icon-icon_xytjbb:before {
+  content: "\e657";
+}
+
+.icon-yonghuzhucetongji:before {
+  content: "\e604";
+}
+
+.icon-yonghutongji:before {
+  content: "\e620";
 }
 
 .icon-yonghu:before {
@@ -30,4 +48,3 @@
 .icon-16:before {
   content: "\e61e";
 }
-
