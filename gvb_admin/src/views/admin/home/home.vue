@@ -59,9 +59,9 @@ const data = reactive({
 }
 .preview_item{
   display: flex;
-  background-color: white;
+  background-color: var(--card_bg);
   border-radius: 5px;
-  border: 1px solid #e2e2e2;
+  border: 1px solid var(--card_border);
   padding: 20px;
   .icon{
     width: 60%;

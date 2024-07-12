@@ -1,6 +1,6 @@
 <template>
     <a-menu v-model:selectedKeys="selectedKeys"
-            mode="inline" theme="dark"
+            mode="inline"
             :inline-collapsed="false"
             @click="goto"
     >
@@ -43,33 +43,47 @@ const data = reactive({
     },
     {
         id: 2,
-        icon: "fa-users", // 菜单图标
-        title: "用户列表", // 菜单标题
+        icon: "fa-users", 
+        title: "用户列表", 
         name: "",    // 路由名称
         children: [
             {
                 id: 3,
-                icon: "fa-list", // 菜单图标
-                title: "用户管理", // 菜单标题
+                icon: "fa-list", 
+                title: "用户管理", 
                 name: "user_list",    // 路由名称
             },
         ]
     },
     {
         id: 5,
-        icon: "fa-cogs", // 菜单图标
-        title: "系统管理", // 菜单标题
+        icon: "fa-cogs", 
+        title: "系统管理",
         name: "",    // 路由名称
         children: [
             {
                 id: 6,
-                icon: "fa-cog", // 菜单图标
-                title: "系统配置", // 菜单标题
+                icon: "fa-cog", 
+                title: "系统配置", 
                 name: "system_list",    // 路由名称
             },
 
         ]
     },
+    {
+        id: 5,
+        icon: "fa-cogs", 
+        title: "图片管理",
+        name: "",    // 路由名称
+        children: [
+            {
+                id: 6,
+                icon: "fa-cog", 
+                title: "图片列表", 
+                name: "system_list",    // 路由名称
+            },
+        ]
+    }
     ]
 })
 const router = useRouter()
@@ -82,4 +96,16 @@ function goto(event){
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.ant-menu{
+  background-color: transparent;
+  color:white;
+}
+
+.ant-menu-submenu-arrow{
+  color: white;
+}
+.ant-menu-submenu.ant-menu-submenu-inline{
+  color: white;
+}
+</style>

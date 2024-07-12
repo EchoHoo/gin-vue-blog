@@ -12,6 +12,7 @@ import {useStore} from "@/stores/store.js";
 const store = useStore()
 const theme = store.theme// true代表白天 false代表黑夜
 function setTheme(){
+  console.log(theme)
   store.setTheme()
 }
 

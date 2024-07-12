@@ -21,7 +21,6 @@
             <i class="fa fa-arrows-alt"></i>   
           </div>
           <GVBUserInfo :is-avatar="true">
-
           </GVBUserInfo>
         </div>
       </header>
@@ -52,7 +51,9 @@ import {ref} from "vue";
   aside{
     width:240px;
     height: 100vh;
-    background: var(--slide);
+    background: var(--gradient_bg);
+    //background-color: transparent;
+
   }
   
   .main{
@@ -62,6 +63,7 @@ import {ref} from "vue";
       align-items: center;
     }
     .right{
+
       align-items: center;
       display: flex;
       .icon_actions{
@@ -99,8 +101,8 @@ import {ref} from "vue";
     }
     .tabs{
       height:30px;
+      border-color:var(--order);
       border: 1px solid var(--order);
-
     }
     main{
       background: var(--bg);
