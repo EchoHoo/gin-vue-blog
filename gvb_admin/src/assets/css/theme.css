@@ -5,7 +5,7 @@
     --text: #000000;
     --card_bg: white;
     --card_border: #e2e2e2;
-    --active:#1782FFFF
+    --active:#1782FFFF;
     --gradient_bg:radial-gradient( circle 1292px at -13.6% 51.7%,  rgba(0,56,68,1) 0%, rgba(163,217,185,1) 51.5%, rgba(255,252,247,1) 88.6% );
 }
 .dark{
@@ -15,7 +15,7 @@
     --text: #cfcfcc;
     --card_bg: black;
     --card_border: #ca2f2f;
-    --active:#1782FFFF
+    --active:#1782FFFF;
     --gradient_bg:radial-gradient( circle 1292px at -13.6% 51.7%,  rgba(0,56,68,1) 0%, rgba(163,217,185,1) 51.5%, rgba(255,252,247,1) 88.6% );
 }
 

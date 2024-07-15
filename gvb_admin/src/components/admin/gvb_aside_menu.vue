@@ -48,7 +48,7 @@ const data = reactive({
         name: "",    // 路由名称
         children: [
             {
-                id: 3,
+                id: 10,
                 icon: "fa-list", 
                 title: "用户管理", 
                 name: "user_list",    // 路由名称
@@ -56,13 +56,13 @@ const data = reactive({
         ]
     },
     {
-        id: 5,
+        id: 3,
         icon: "fa-cogs", 
         title: "系统管理",
         name: "",    // 路由名称
         children: [
             {
-                id: 6,
+                id: 11,
                 icon: "fa-cog", 
                 title: "系统配置", 
                 name: "system_list",    // 路由名称
@@ -71,19 +71,75 @@ const data = reactive({
         ]
     },
     {
-        id: 5,
-        icon: "fa-cogs", 
+        id: 4,
+        icon: "iconfont icon-tupianguanli1", 
         title: "图片管理",
         name: "",    // 路由名称
         children: [
             {
-                id: 6,
-                icon: "fa-cog", 
+                id: 12,
+                icon: "iconfont icon-tupianguanli1", 
                 title: "图片列表", 
-                name: "system_list",    // 路由名称
+                name: "avatar_list",    // 路由名称
             },
         ]
-    }
+    },
+    {
+        id: 5,
+        icon: "iconfont icon-16", 
+        title: "文章管理",
+        name: "",    // 路由名称
+        children: [
+            {
+                id: 13,
+                icon: "iconfont icon-wenzhang", 
+                title: "文章列表", 
+                name: "article_list",    // 路由名称
+            },
+        ]
+    },
+    {
+        id: 6,
+        icon: "iconfont icon-jianyi", 
+        title: "评论管理",
+        name: "",    // 路由名称
+        children: [
+            {
+                id: 14,
+                icon: "iconfont icon-jianyi", 
+                title: "评论列表", 
+                name: "comment_list",    // 路由名称
+            },
+        ]
+    },
+    {
+        id: 7,
+        icon: "iconfont icon-jianyi", 
+        title: "群聊管理",
+        name: "",    // 路由名称
+        children: [
+            {
+                id: 15,
+                icon: "iconfont icon-jianyi", 
+                title: "聊天记录", 
+                name: "chat_list",    // 路由名称
+            },
+        ]
+    },
+    {
+        id: 8,
+        icon: "iconfont icon-bug-delay", 
+        title: "日志管理",
+        name: "",    // 路由名称
+        children: [
+            {
+                id: 16,
+                icon: "iconfont icon-bug-delay", 
+                title: "日志记录", 
+                name: "log_list",    // 路由名称
+            },
+        ]
+    },
     ]
 })
 const router = useRouter()
