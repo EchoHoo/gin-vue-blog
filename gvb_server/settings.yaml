@@ -62,12 +62,12 @@ jwt:
   expires: 48
   issuer: xx
 redis:
-  ip: 12.tcp.cpolar.top
-  port: 12185
+  ip: "127.0.0.1"
+  port: 6379
   password: ""
   pool_size: 100
 es:
-  host: "http://eatest.cpolar.top"
+  host: "http://localhost:9200/"
   port: 9200
   user: 
   password: 

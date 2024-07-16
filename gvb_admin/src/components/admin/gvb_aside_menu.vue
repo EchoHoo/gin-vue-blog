@@ -100,7 +100,7 @@ const data = reactive({
     },
     {
         id: 6,
-        icon: "iconfont icon-jianyi", 
+        icon: "iconfont icon-pinglunguanli", 
         title: "评论管理",
         name: "",    // 路由名称
         children: [
@@ -114,7 +114,7 @@ const data = reactive({
     },
     {
         id: 7,
-        icon: "iconfont icon-jianyi", 
+        icon: "iconfont icon-qunliaoguanli", 
         title: "群聊管理",
         name: "",    // 路由名称
         children: [
