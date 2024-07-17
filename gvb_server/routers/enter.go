@@ -2,6 +2,7 @@ package routers
 
 import (
 	"gvb_server/gvb_server/global"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -15,6 +16,7 @@ type RouterGroup struct {
 func InitRouter() *gin.Engine {
 	gin.SetMode(global.Config.System.Env)
 	router := gin.Default()
+	router.StaticFS("uploads", http.Dir("uploads"))
 	router.GET("/swagger/*any", gs.WrapHandler(swaggerFiles.Handler))
 	//路由组api
 	apiRouterGroup := router.Group("api")
