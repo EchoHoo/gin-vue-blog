@@ -20,6 +20,9 @@ export default ({mode}) =>{
         proxy:{
           "/uploads":{
             target: baseURL,
+          },
+          "/api":{
+            target: baseURL,
           }
         }
       }
