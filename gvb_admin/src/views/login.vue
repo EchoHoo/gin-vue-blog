@@ -35,25 +35,43 @@
 import { reactive } from 'vue';
 import { message } from 'ant-design-vue';
 import { emailLoginApi } from '@/api/user_api';
+import { parseToken } from '@/utils/jwt';
+import { useStore } from '@/stores/store';
+import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
+const route = useRoute()
+const router = useRouter()
+const store = useStore()
 const data = reactive({
-  user_name:"",
-  password:""
+  user_name: "",
+  password: ""
 })
-
 async function emailLogin() {
-  if(data.user_name === "" || data.password === ""){
+  if (data.user_name === "" || data.password === "") {
     message.error("用户名或密码不能为空")
     return
   }
   let res = await emailLoginApi(data)
-  if (res.code){
+  if (res.code) {
     message.error(res.msg)
-    return 
+    return
   }
-  message.success("登录成功")
+  message.success(res.msg)
+  let userInfo = parseToken(res.data)
+  userInfo.token = res.data
+  store.setUserInfo(userInfo)
+  const redirect_url = route.query.redirect_url
+  if (redirect_url === undefined) {
+    setTimeout(() => {
+      router.push('admin/home')
+    }, 1000)
+  }
+  // 跳转页面
+  setTimeout(() => {
+    router.push({path: redirect_url})
+  }, 1000)
 }
 </script>
-
 <style scoped lang="scss">
 .gvb_login_bg {
   width: 100%;
@@ -89,7 +107,8 @@ async function emailLogin() {
   align-items: center;
 
   .gvb_login_main {
-    width:75%;
+    width: 75%;
+
     .gvb_login_head {
       font-size: 24px;
       font-weight: 600;
@@ -97,7 +116,7 @@ async function emailLogin() {
     }
   }
 
-  .gvb_login_form{
+  .gvb_login_form {
     .gvb_login_form_item {
       margin-bottom: 10px;
     }

@@ -2,6 +2,11 @@
   <router-view/>
 </template>
 
+<script setup>
+import { useStore } from './stores/store';
+const store = useStore();
+store.loadUserInfo();
+</script>
 
 <style lang="scss">
 * {

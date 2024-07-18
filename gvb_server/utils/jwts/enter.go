@@ -9,6 +9,7 @@ type JwtPayLoad struct {
 	NickName string `json:"nickname"`
 	Role     int    `json:"role"`
 	UserID   uint   `json:"user_id"`
+	Avatar   string `json:"avatar"`
 }
 type CustomClaims struct {
 	JwtPayLoad

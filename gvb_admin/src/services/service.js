@@ -1,3 +1,4 @@
+import { useStore } from "@/stores/store";
 import axios from "axios";
 
 export const Service = axios.create({
@@ -10,14 +11,13 @@ export const Service = axios.create({
 
 
 Service.interceptors.request.use(request => {
-        // 一般用于添加用户的token
-        return request
+    // 一半用于用户的token
+    const store = useStore()
+    request.headers["token"] = store.userInfo.token
+
+    // 一般用于添加用户的token
+    return request
 })
-
-
-
-
-
 
 Service.interceptors.response.use(response => {
     return response.data

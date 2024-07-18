@@ -20,6 +20,9 @@
                         <a-menu-item key="article_list">
                             <a href="javascript:">文章列表</a>
                         </a-menu-item>
+                        <a-menu-item key="login">
+                            <a href="javascript:">用户登录</a>
+                        </a-menu-item>
                         <a-menu-item key="logout">
                             <a href="javascript:">注销退出</a>
                         </a-menu-item>
@@ -33,8 +36,8 @@
 
 
 <script setup>
-import { useRouter } from "vue-router"
-
+import { useRoute,useRouter } from "vue-router"
+const route = useRoute()
 const router = useRouter()
 const props = defineProps({
     // 是否显示头像部分
@@ -48,6 +51,15 @@ function menuClick({ key }) {
     console.log(key)
     if (key === "logout") {
         return
+    }
+    if (key === "login") {
+        router.push({
+            name:key,
+            query:{
+                redirect_url:route.path
+            }
+        })
+        return 
     }
     router.push({
         name: key
