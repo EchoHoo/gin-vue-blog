@@ -1,27 +1,51 @@
 <template>
     <div class="gvb_container">
+        <a-modal v-model:visible="data.modalVidible" title="添加用户" @ok="handleOk">
+            <a-form :model="formState" name="basic" :label-col="{ span: 4 }" :wrapper-col="{ span: 16 }" :ref="formRef"
+                autocomplete="off">
+                <a-form-item label="用户名" name="user_name" :rules="[{ required: true, message: '请输入用户名' }]">
+                    <a-input v-model:value="formState.user_name" :placeholder="'用户名'" />
+                </a-form-item>
+
+                <a-form-item label="昵称" name="nick_name" :rules="[{ required: true, message: '请输入昵称' }]">
+                    <a-input-password v-model:value="formState.nick_name" :placeholder="'昵称'" />
+                </a-form-item>
+
+                <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码' }]">
+                    <a-input-password v-model:value="formState.password" :placeholder="'密码'" />
+                </a-form-item>
+                <a-form-item label="确认密码" name="re_password" :rules="[{ required: true, message: '请确认密码' }]">
+                    <a-input-password v-model:value="formState.re_password" :placeholder="'确认密码'" />
+                </a-form-item>
+                <a-form-item label="权限" name="role" :rules="[{ required: true, message: '请选择权限' }]">
+                    <a-select v-model:value="formState.role" style="width: 200px" :options="options"
+                        :placeholder="'请选择权限'">
+
+                    </a-select>
+                </a-form-item>
+
+
+            </a-form>
+        </a-modal>
+
         <div class="gvb_search">
             <a-input-search placeholder="搜索用户昵称" style="width: 200px" />
         </div>
         <div class="gvb_actions">
-            <a-button type="primary">添加</a-button>
+            <a-button type="primary" @click="data.modalVidible = true">添加</a-button>
             <a-button type="primary" danger @click="removeBatch" v-if="data.selectedRowKeys.length">批量删除</a-button>
         </div>
         <div class="gvb_tables">
-            <a-table 
-                :columns="data.columns" 
-                :data-source="data.list"
-                :row-key="id"
-                :row-selection="{ selectedRowKeys: data.selectedRowKeys, onChange: onSelectChange }"
-                >
-                <template #bodyCell="{ column,record }">
+            <a-table :columns="data.columns" :data-source="data.list" :row-key="id"
+                :row-selection="{ selectedRowKeys: data.selectedRowKeys, onChange: onSelectChange }">
+                <template #bodyCell="{ column, record }">
                     <template v-if="column.key === 'avatar'">
                         <img class="gvb_table_avatar" :src="record.avatar" alt="">
                     </template>
                     <template v-if="column.key === 'created_at'">
                         {{ getFormatDate(record.created_at) }}
                     </template>
-                    <template  v-if="column.key === 'action'">
+                    <template v-if="column.key === 'action'">
                         <a-button class="gvb_table_action update" type="primary">编辑</a-button>
                         <a-button class="gvb_table_action delete" type="primary" danger>删除</a-button>
                     </template>
@@ -29,8 +53,8 @@
             </a-table>
         </div>
         <div class="gvb_pages">
-            <a-pagination show-less-items v-model:current="page.page" v-model:page-size="page.limit" :total="85"
-                :show-total="total => ` 共 ${total} 页`" />
+            <a-pagination show-less-items v-model:current="page.page" v-model:page-size="page.limit" :total="data.count"
+                :show-total="total => ` 共 ${total} 人`" />
 
         </div>
 
@@ -38,12 +62,15 @@
 
 </template>
 <script setup>
-import { reactive } from 'vue'
+
+import { reactive,ref } from 'vue'
 import { getFormatDate } from '@/utils/data';
+import { userListApi } from '@/api/user_api';
 const page = reactive({
     page: 1,
     limit: 10
 })
+const formRef = ref(null)
 const data = reactive({
     columns: [
         { title: 'id', key: 'id', dataIndex: 'id' },
@@ -53,7 +80,7 @@ const data = reactive({
         { title: '地址', key: 'addr', dataIndex: 'addr' },
         { title: 'ip', key: 'ip', dataIndex: 'ip' },
         { title: '角色', key: 'role', dataIndex: 'role' },
-        { title: '注册来源', key: 'sign_status', dataIndex: 'sign_status'},
+        { title: '注册来源', key: 'sign_status', dataIndex: 'sign_status' },
         { title: '创建时间', key: 'created_at', dataIndex: 'created_at' },
         { title: '操作', key: 'action', dataIndex: 'action' },
     ],
@@ -73,16 +100,47 @@ const data = reactive({
             "sign_status": "邮箱"
         },
     ],
-    selectedRowKeys:[
-        
-    ]
+    selectedRowKeys: [],
+    count: 0,
+    modalVidible: false,
 })
-function onSelectChange(selectedRowkeys){
+const options = [{
+    label: '管理员',
+    value: 1
+},
+{
+    label: '普通用户',
+    value: 2
+},
+{
+    label: '游客',
+    value: 3
+}]
+const formState = reactive({
+    nick_name: "",
+    user_name: "",
+    password: "",
+    re_password: "",
+    role: 1
+})
+function onSelectChange(selectedRowkeys) {
     data.selectedRowKeys = selectedRowkeys
 }
-function removeBatch(){
+function removeBatch() {
     // data.selectedRowKeys
 }
+async function getData() {
+    let res = await userListApi({})
+    data.list = res.data.list
+    data.count = res.data.count
+    console.log(res.data)
+}
+async function handleOk() {
+    try{
+        await formRef.value.validate()
+    }catch(e){}
+}
+getData()
 </script>
 
 <style lang="scss">
@@ -108,12 +166,14 @@ function removeBatch(){
         justify-content: center;
         padding: 10px;
     }
-    .gvb_table_avatar{
+
+    .gvb_table_avatar {
         width: 40px;
         height: 40px;
         border-radius: 1cap;
     }
-    .gvb_table_action.update{
+
+    .gvb_table_action.update {
         margin-right: 10px;
     }
 }
