@@ -3,21 +3,21 @@
         <a-modal v-model:visible="data.modalVidible" title="添加用户" @ok="handleOk">
             <a-form :model="formState" name="basic" :label-col="{ span: 4 }" :wrapper-col="{ span: 16 }" :ref="formRef"
                 autocomplete="off">
-                <a-form-item label="用户名" name="user_name" :rules="[{ required: true, message: '请输入用户名' }]">
+                <a-form-item label="用户名" has-feedback name="user_name" :rules="[{ required: true, message: '请输入用户名' ,trigger:'blur'}]">
                     <a-input v-model:value="formState.user_name" :placeholder="'用户名'" />
                 </a-form-item>
 
-                <a-form-item label="昵称" name="nick_name" :rules="[{ required: true, message: '请输入昵称' }]">
-                    <a-input-password v-model:value="formState.nick_name" :placeholder="'昵称'" />
+                <a-form-item label="昵称" has-feedback name="nick_name" :rules="[{ required: true, message: '请输入昵称',trigger:'blur' }]">
+                    <a-input v-model:value="formState.nick_name" :placeholder="'昵称'" />
                 </a-form-item>
 
-                <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码' }]">
+                <a-form-item label="密码" has-feedback name="password" :rules="[{ required: true, message: '请输入密码',trigger:'blur' }]">
                     <a-input-password v-model:value="formState.password" :placeholder="'密码'" />
                 </a-form-item>
-                <a-form-item label="确认密码" name="re_password" :rules="[{ required: true, message: '请确认密码' }]">
+                <a-form-item label="确认密码" has-feedback name="re_password" :rules="[{validator:validatePassword,message:'两次密码输入不一致',trigger:'blur'}]">
                     <a-input-password v-model:value="formState.re_password" :placeholder="'确认密码'" />
                 </a-form-item>
-                <a-form-item label="权限" name="role" :rules="[{ required: true, message: '请选择权限' }]">
+                <a-form-item label="权限" has-feedback name="role" :rules="[{ required: true, message: '请选择权限' }]">
                     <a-select v-model:value="formState.role" style="width: 200px" :options="options"
                         :placeholder="'请选择权限'">
 
@@ -66,6 +66,7 @@
 import { reactive,ref } from 'vue'
 import { getFormatDate } from '@/utils/data';
 import { userListApi } from '@/api/user_api';
+import { message } from 'ant-design-vue';
 const page = reactive({
     page: 1,
     limit: 10
@@ -139,6 +140,15 @@ async function handleOk() {
     try{
         await formRef.value.validate()
     }catch(e){}
+}
+let validatePassword = async(_rule,value) =>{
+    if (value === ''){
+        return Promise.reject('密码不能为空');
+    }else if (value !== formState.password){
+        return Promise.reject('两次密码输入不一致');
+    }else{
+        return Promise.resolve();
+    }
 }
 getData()
 </script>
