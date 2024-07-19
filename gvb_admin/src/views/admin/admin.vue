@@ -58,7 +58,9 @@ import {ref} from "vue";
   
   .main{
     width:calc(100% - 240px);
-    
+    height: 100vh;
+    overflow-y: auto;
+
     .actions{
       align-items: center;
     }
@@ -95,7 +97,7 @@ import {ref} from "vue";
       padding: 0 20px;
       display: flex;
       color: var(--text);
-
+      background-color: var(--card_bg);
       justify-content: space-between;
       align-items: center;
     }
@@ -103,6 +105,7 @@ import {ref} from "vue";
       height:30px;
       border-color:var(--order);
       border: 1px solid var(--order);
+      background-color:var(--card_bg)
     }
     main{
       background: var(--bg);

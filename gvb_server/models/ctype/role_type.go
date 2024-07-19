@@ -11,23 +11,21 @@ const (
 	PermissionDisableUser Role = 4 //被禁用的用户
 )
 
-func (s Role) MashalJSON() ([]byte, error) {
-	return json.Marshal(s.String())
+func (r Role) MarshalJSON() ([]byte, error) {
+	return json.Marshal(r.String())
 }
 
-func (s Role) String() string {
-	var str string
-	switch s {
+func (r Role) String() string {
+	switch r {
 	case PermissionAdmin:
-		str = "管理员"
+		return "管理员"
 	case PermissionUser:
-		str = "用户"
+		return "用户"
 	case PermissionVisitor:
-		str = "游客"
+		return "游客"
 	case PermissionDisableUser:
-		str = "被禁言的用户"
+		return "被禁言的用户"
 	default:
-		str = "其他"
+		return "其他"
 	}
-	return str
 }

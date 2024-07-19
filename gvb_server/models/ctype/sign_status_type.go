@@ -10,21 +10,19 @@ const (
 	SignEmail SignStatus = 3 //邮箱
 )
 
-func (s SignStatus) MashalJSON() ([]byte, error) {
+func (s SignStatus) MarshalJSON() ([]byte, error) {
 	return json.Marshal(s.String())
 }
 
 func (s SignStatus) String() string {
-	var str string
 	switch s {
 	case SignQQ:
-		str = "QQ"
+		return "QQ"
 	case SignGitee:
-		str = "Gitee"
+		return "Gitee"
 	case SignEmail:
-		str = "Email"
+		return "Email"
 	default:
-		str = "其他"
+		return "其他"
 	}
-	return str
 }

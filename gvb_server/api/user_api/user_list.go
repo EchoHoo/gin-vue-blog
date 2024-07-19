@@ -1,6 +1,7 @@
 package user_api
 
 import (
+	"fmt"
 	"gvb_server/gvb_server/models"
 	"gvb_server/gvb_server/models/ctype"
 	"gvb_server/gvb_server/models/res"
@@ -21,6 +22,7 @@ func (UserApi) UserListView(c *gin.Context) {
 		return
 	}
 	var users []models.UserModel
+	fmt.Println(page.Page, page.Limit)
 	list, count, _ := common.ComList(models.UserModel{}, common.Option{
 		PageInfo: page,
 	})
@@ -34,7 +36,6 @@ func (UserApi) UserListView(c *gin.Context) {
 		user.Tel = desense.DesensitizationTel(user.Tel)
 		//脱敏邮箱
 		user.Email = desense.DesensitizationEmail(user.Email)
-
 		users = append(users, user)
 	}
 
