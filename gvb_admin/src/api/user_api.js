@@ -14,3 +14,8 @@ export function userListApi(params){
 export function userCreateApi(data){
     return Service.post("/api/users", data)
 }
+
+// 删除用户 参数是用户的ID列表
+export function useRemoveBatchApi(id_List){
+    return Service.delete("/api/users", { data: { id_List } });
+}

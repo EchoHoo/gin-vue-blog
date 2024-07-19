@@ -37,7 +37,7 @@
             <a-button type="primary" danger @click="removeBatch" v-if="data.selectedRowKeys.length">批量删除</a-button>
         </div>
         <div class="gvb_tables">
-            <a-table :columns="data.columns" :data-source="data.list" :row-key="id" :pagination="false"
+            <a-table :columns="data.columns" :data-source="data.list" :row-key="record => record.id" :pagination="false"
                 :row-selection="{ selectedRowKeys: data.selectedRowKeys, onChange: onSelectChange }">
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.key === 'avatar'">
@@ -48,14 +48,17 @@
                     </template>
                     <template v-if="column.key === 'action'">
                         <a-button class="gvb_table_action update" type="primary">编辑</a-button>
-                        <a-button class="gvb_table_action delete" type="primary" danger>删除</a-button>
+                        <a-popconfirm title="是否确定删除?" ok-text="确认" cancel-text="取消" @confirm="userRemove(record.id)">
+                            <a-button class="gvb_table_action delete" type="primary" danger>删除</a-button>
+                        </a-popconfirm>
+
                     </template>
                 </template>
             </a-table>
         </div>
         <div class="gvb_pages">
-            <a-pagination show-less-items v-model:current="page.page" v-model:page-size="page.limit" :total="data.count"
-                :show-total="total => ` 共 ${total} 人`" />
+            <a-pagination show-less-items v-model:current="page.page" @change="pageChange"
+                v-model:page-size="page.limit" :total="data.count" :show-total="total => ` 共 ${total} 人`" />
         </div>
     </div>
 </template>
@@ -63,14 +66,14 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { getFormatDate } from '@/utils/data';
-import { userCreateApi, userListApi } from '@/api/user_api';
+import { userCreateApi, useRemoveBatchApi, userListApi } from '@/api/user_api';
 import { message } from 'ant-design-vue';
 
-const formRef = ref(null); // 确保 formRef 定义在组件中
+const formRef = ref(null);
 
 const page = reactive({
-    page:1,
-    limit:7,
+    page: 1,
+    limit: 7,
 })
 const data = reactive({
     columns: [
@@ -125,10 +128,30 @@ const formState = reactive({
     role: 1
 })
 function onSelectChange(selectedRowkeys) {
-    data.selectedRowKeys = selectedRowkeys
+    data.selectedRowKeys = selectedRowkeys;
 }
-function removeBatch() {
+async function removeBatch() {
     // data.selectedRowKeys
+    let res = await useRemoveBatchApi(data.selectedRowKeys)
+    if (res.code) {
+        message.error(res.msg);
+        return;
+    }
+    message.success(res.msg);
+    getData()
+
+}
+function pageChange() {
+    getData();
+}
+async function userRemove(user_id) {
+    let res = await useRemoveBatchApi([user_id])
+    if (res.code) {
+        message.error(res.msg);
+        return;
+    }
+    message.success(res.msg);
+    getData()
 }
 async function getData() {
     let res = await userListApi(page)
@@ -138,7 +161,7 @@ async function getData() {
 }
 async function handleOk() {
     try {
-        await formRef.value?.validate(); // 检查 formRef 是否为 null
+        await formRef.value?.validate();
         console.log(formState);
         let res = await userCreateApi(formState);
         if (res.code) {
