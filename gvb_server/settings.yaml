@@ -59,7 +59,7 @@ email:
   user_tls: false
 jwt:
   secret: xxx
-  expires: 48
+  expires: 96
   issuer: xx
 redis:
   ip: "127.0.0.1"

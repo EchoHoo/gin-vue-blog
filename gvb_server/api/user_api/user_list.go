@@ -30,6 +30,7 @@ func (UserApi) UserListView(c *gin.Context) {
 	fmt.Println(page.Page, page.Limit)
 	list, count, _ := common.ComList(models.UserModel{}, common.Option{
 		PageInfo: page,
+		Likes:    []string{"nick_name"},
 	})
 
 	for _, user := range list {

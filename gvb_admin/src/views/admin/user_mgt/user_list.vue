@@ -29,8 +29,8 @@
             </a-form>
         </a-modal>
         <a-modal v-model:visible="data.modalUpdateVidible" title="编辑用户" @ok="update">
-            <a-form :model="formUpdateState" name="basic" :label-col="{ span: 4 }" :wrapper-col="{ span: 16 }" ref="formRef"
-                autocomplete="off">
+            <a-form :model="formUpdateState" name="basic" :label-col="{ span: 4 }" :wrapper-col="{ span: 16 }"
+                ref="formRef" autocomplete="off">
 
                 <a-form-item label="昵称" has-feedback name="nick_name"
                     :rules="[{ required: true, message: '请输入昵称', trigger: 'blur' }]">
@@ -45,31 +45,42 @@
             </a-form>
         </a-modal>
         <div class="gvb_search">
-            <a-input-search placeholder="搜索用户昵称" style="width: 200px" />
+            <a-input-search placeholder="搜索用户昵称" v-model:value="page.key" style="width: 200px" @search="onSearch"/>
+            <div class="gvb_refresh">   
+                <a-button title="刷新" @click="refresh"><i class="fa fa-refresh"></i></a-button>
+            </div>
         </div>
+        <div class="gvb_divider"></div>
         <div class="gvb_actions">
             <a-button type="primary" @click="addModal">添加</a-button>
             <a-button type="primary" danger @click="removeBatch" v-if="data.selectedRowKeys.length">批量删除</a-button>
+
         </div>
         <div class="gvb_tables">
-            <a-table :columns="data.columns" :data-source="data.list" :row-key="record => record.id" :pagination="false"
-                :row-selection="{ selectedRowKeys: data.selectedRowKeys, onChange: onSelectChange }">
-                <template #bodyCell="{ column, record }">
-                    <template v-if="column.key === 'avatar'">
-                        <img class="gvb_table_avatar" :src="record.avatar" alt="" />
-                    </template>
-                    <template v-if="column.key === 'created_at'">
-                        {{ getFormatDate(record.created_at) }}
-                    </template>
-                    <template v-if="column.key === 'action'">
-                        <a-button class="gvb_table_action update" type="primary" @click="updateModal(record)">编辑</a-button>
-                        <a-popconfirm title="是否确定删除?" ok-text="确认" cancel-text="取消" @confirm="userRemove(record.id)">
-                            <a-button class="gvb_table_action delete" type="primary" danger>删除</a-button>
-                        </a-popconfirm>
+            <a-spin :spinning="data.spinning" tip="Loading..." delay="500">
+                <a-table :columns="data.columns" :data-source="data.list" :row-key="record => record.id"
+                    :pagination="false"
+                    :row-selection="{ selectedRowKeys: data.selectedRowKeys, onChange: onSelectChange }">
+                    <template #bodyCell="{ column, record }">
+                        <template v-if="column.key === 'avatar'">
+                            <img class="gvb_table_avatar" :src="record.avatar" alt="" />
+                        </template>
+                        <template v-if="column.key === 'created_at'">
+                            {{ getFormatDate(record.created_at) }}
+                        </template>
+                        <template v-if="column.key === 'action'">
+                            <a-button class="gvb_table_action update" type="primary"
+                                @click="updateModal(record)">编辑</a-button>
+                            <a-popconfirm title="是否确定删除?" ok-text="确认" cancel-text="取消"
+                                @confirm="userRemove(record.id)">
+                                <a-button class="gvb_table_action delete" type="primary" danger>删除</a-button>
+                            </a-popconfirm>
 
+                        </template>
                     </template>
-                </template>
-            </a-table>
+                </a-table>
+            </a-spin>
+
         </div>
         <div class="gvb_pages">
             <a-pagination show-less-items v-model:current="page.page" @change="pageChange"
@@ -88,11 +99,12 @@ const formRef = ref(null);
 const formUpdateState = reactive({
     nick_name: "",
     role: undefined,
-    user_id:0
+    user_id: 0
 })
 const page = reactive({
     page: 1,
     limit: 7,
+    key:"",
 })
 const data = reactive({
     columns: [
@@ -127,6 +139,7 @@ const data = reactive({
     count: 0,
     modalVidible: false,
     modalUpdateVidible: false,
+    spinning:true,
 })
 const options = [{
     label: '管理员',
@@ -174,10 +187,17 @@ async function userRemove(user_id) {
     getData()
 }
 async function getData() {
+    data.spinning = true
     let res = await userListApi(page)
     data.list = res.data.list
     data.count = res.data.count
+    data.spinning = false
     console.log(res.data)
+}
+function refresh() {
+    getData()
+    message.success('刷新成功')
+
 }
 async function handleOk() {
     try {
@@ -208,16 +228,16 @@ let validatePassword = async (_rule, value) => {
 }
 function addModal() {
     data.modalVidible = true;
-   
+
 }
-    
+
 function updateModal(record) {
     data.modalUpdateVidible = true;
     formUpdateState.user_id = record.id;
     formUpdateState.nick_name = record.nick_name;
     formUpdateState.role = record.role;
 }
-async function update(){
+async function update() {
     console.log(formUpdateState);
     let res = await updateUserNickNameApi(formUpdateState)
     if (res.code) {
@@ -228,12 +248,42 @@ async function update(){
     getData()
     data.modalUpdateVidible = false;
 }
+function onSearch(){
+    page.key = page.key.trim()
+    page.page = 1
+    getData()
+}
 getData()
 </script>
 
 <style lang="scss">
 .gvb_container {
     background-color: white;
+
+    .gvb_search {
+        padding: 10px;
+        border-bottom: var(--card_bg);
+
+        position: relative;
+
+        .gvb_refresh {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+
+            i {
+                color: var(--text);
+            }
+        }
+
+    }
+
+    .gvb_divider {
+        width: 100%;
+        height: 1px;
+        background-color: var(--divider-color, #dcdcdc);
+        margin: 10px 0;
+    }
 
     .gvb_actions {
         padding: 10px;
