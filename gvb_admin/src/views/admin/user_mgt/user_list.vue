@@ -28,12 +28,27 @@
                 </a-form-item>
             </a-form>
         </a-modal>
+        <a-modal v-model:visible="data.modalUpdateVidible" title="编辑用户" @ok="update">
+            <a-form :model="formUpdateState" name="basic" :label-col="{ span: 4 }" :wrapper-col="{ span: 16 }" ref="formRef"
+                autocomplete="off">
 
+                <a-form-item label="昵称" has-feedback name="nick_name"
+                    :rules="[{ required: true, message: '请输入昵称', trigger: 'blur' }]">
+                    <a-input v-model:value="formUpdateState.nick_name" placeholder="昵称" />
+                </a-form-item>
+
+                <a-form-item label="权限" has-feedback name="role" :rules="[{ required: true, message: '请选择权限' }]">
+                    <a-select v-model:value="formUpdateState.role" style="width: 200px" :options="options"
+                        placeholder="请选择权限">
+                    </a-select>
+                </a-form-item>
+            </a-form>
+        </a-modal>
         <div class="gvb_search">
             <a-input-search placeholder="搜索用户昵称" style="width: 200px" />
         </div>
         <div class="gvb_actions">
-            <a-button type="primary" @click="data.modalVidible = true">添加</a-button>
+            <a-button type="primary" @click="addModal">添加</a-button>
             <a-button type="primary" danger @click="removeBatch" v-if="data.selectedRowKeys.length">批量删除</a-button>
         </div>
         <div class="gvb_tables">
@@ -47,7 +62,7 @@
                         {{ getFormatDate(record.created_at) }}
                     </template>
                     <template v-if="column.key === 'action'">
-                        <a-button class="gvb_table_action update" type="primary">编辑</a-button>
+                        <a-button class="gvb_table_action update" type="primary" @click="updateModal(record)">编辑</a-button>
                         <a-popconfirm title="是否确定删除?" ok-text="确认" cancel-text="取消" @confirm="userRemove(record.id)">
                             <a-button class="gvb_table_action delete" type="primary" danger>删除</a-button>
                         </a-popconfirm>
@@ -66,11 +81,15 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { getFormatDate } from '@/utils/data';
-import { userCreateApi, useRemoveBatchApi, userListApi } from '@/api/user_api';
+import { userCreateApi, useRemoveBatchApi, userListApi, updateUserNickNameApi } from '@/api/user_api';
 import { message } from 'ant-design-vue';
 
 const formRef = ref(null);
-
+const formUpdateState = reactive({
+    nick_name: "",
+    role: undefined,
+    user_id:0
+})
 const page = reactive({
     page: 1,
     limit: 7,
@@ -107,6 +126,7 @@ const data = reactive({
     selectedRowKeys: [],
     count: 0,
     modalVidible: false,
+    modalUpdateVidible: false,
 })
 const options = [{
     label: '管理员',
@@ -185,6 +205,28 @@ let validatePassword = async (_rule, value) => {
     } else {
         return Promise.resolve();
     }
+}
+function addModal() {
+    data.modalVidible = true;
+   
+}
+    
+function updateModal(record) {
+    data.modalUpdateVidible = true;
+    formUpdateState.user_id = record.id;
+    formUpdateState.nick_name = record.nick_name;
+    formUpdateState.role = record.role;
+}
+async function update(){
+    console.log(formUpdateState);
+    let res = await updateUserNickNameApi(formUpdateState)
+    if (res.code) {
+        message.error(res.msg);
+        return;
+    }
+    message.success(res.msg);
+    getData()
+    data.modalUpdateVidible = false;
 }
 getData()
 </script>

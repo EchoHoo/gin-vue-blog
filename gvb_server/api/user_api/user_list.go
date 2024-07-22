@@ -12,6 +12,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type UserResponse struct {
+	models.UserModel
+	RoleID int `json:"role_id"`
+}
+
 func (UserApi) UserListView(c *gin.Context) {
 	_claims, _ := c.Get("claims")
 	claims := _claims.(*jwts.CustomClaims)
@@ -21,7 +26,7 @@ func (UserApi) UserListView(c *gin.Context) {
 		res.FailWithCode(res.ArgumentError, c)
 		return
 	}
-	var users []models.UserModel
+	var users []UserResponse
 	fmt.Println(page.Page, page.Limit)
 	list, count, _ := common.ComList(models.UserModel{}, common.Option{
 		PageInfo: page,
@@ -36,7 +41,10 @@ func (UserApi) UserListView(c *gin.Context) {
 		user.Tel = desense.DesensitizationTel(user.Tel)
 		//脱敏邮箱
 		user.Email = desense.DesensitizationEmail(user.Email)
-		users = append(users, user)
+		users = append(users, UserResponse{
+			UserModel: user,
+			RoleID:    int(user.Role),
+		})
 	}
 
 	res.OkWithList(users, count, c)
