@@ -44,9 +44,21 @@
                 </a-form-item>
             </a-form>
         </a-modal>
+  
         <div class="gvb_search">
-            <a-input-search placeholder="搜索用户昵称" v-model:value="page.key" style="width: 200px" @search="onSearch"/>
-            <div class="gvb_refresh">   
+           
+            <a-input-search placeholder="搜索用户昵称" v-model:value="page.key" style="width: 200px" @search="onSearch" />
+           
+            <a-select 
+                class="gvb_select"
+                allowClear="true"
+                v-model:value="page.role" 
+                @change="onSearch"
+                style="width: 200px" 
+                :options="options" 
+                placeholder="选择权限">
+            </a-select>
+            <div class="gvb_refresh">
                 <a-button title="刷新" @click="refresh"><i class="fa fa-refresh"></i></a-button>
             </div>
         </div>
@@ -104,7 +116,8 @@ const formUpdateState = reactive({
 const page = reactive({
     page: 1,
     limit: 7,
-    key:"",
+    key: "",
+    role:undefined
 })
 const data = reactive({
     columns: [
@@ -139,7 +152,7 @@ const data = reactive({
     count: 0,
     modalVidible: false,
     modalUpdateVidible: false,
-    spinning:true,
+    spinning: true,
 })
 const options = [{
     label: '管理员',
@@ -248,7 +261,7 @@ async function update() {
     getData()
     data.modalUpdateVidible = false;
 }
-function onSearch(){
+function onSearch() {
     page.key = page.key.trim()
     page.page = 1
     getData()
@@ -265,7 +278,9 @@ getData()
         border-bottom: var(--card_bg);
 
         position: relative;
-
+        .gvb_select{
+            margin-left: 10px;
+        }
         .gvb_refresh {
             position: absolute;
             right: 10px;
@@ -294,7 +309,7 @@ getData()
     }
 
     .gvb_tables {
-        padding: 10px;
+        padding: 0 10px 10px 10px;
     }
 
     .gvb_pages {
