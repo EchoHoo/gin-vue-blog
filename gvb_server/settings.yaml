@@ -18,7 +18,7 @@ system:
   env: release
 upload:
   size: 2
-  path: uploads/file
+  path: /uploads/file
 site_info:
   created_at: "2024-03-11"
   bei_an: 闽ICP备2024031099号-1
@@ -41,11 +41,11 @@ qq:
   key: xx
   redirect: http://xx.xx.xx.com
 qiniu:
-  enable: True
+  enable: false
   access_key: biorfpl1KlGnePUX3WpwfKg49ve-cRbpZT0xrdhk
   secret_key: 8_H-xn8NeWdPGZ9AKtOvDEMZlP7CLa1Po9hL1Yc8
   bucket: obto-blog
-  cdn: xx://xx.xx.com/
+  cdn: 
   zone: z2
   size: 5
   prefix: "gvb"

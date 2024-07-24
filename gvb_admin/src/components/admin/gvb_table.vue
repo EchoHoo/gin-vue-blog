@@ -196,6 +196,9 @@ getData(page);
 
     .gvb_tables {
         padding: 10px;
+        .ant-btn{
+            margin-left:10px;
+        }
     }
 
     .gvb_pages {

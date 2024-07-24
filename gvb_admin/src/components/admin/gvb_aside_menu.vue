@@ -57,6 +57,20 @@ const data = reactive({
     },
     {
         id: 3,
+        icon: "iconfont icon-tupianguanli1", 
+        title: "图片管理",
+        name: "",    // 路由名称
+        children: [
+            {
+                id: 12,
+                icon: "iconfont icon-tupianguanli1", 
+                title: "图片列表", 
+                name: "image_list",    // 路由名称
+            },
+        ]
+    },
+    {
+        id: 4,
         icon: "fa-cogs", 
         title: "系统管理",
         name: "",    // 路由名称
@@ -70,20 +84,7 @@ const data = reactive({
 
         ]
     },
-    {
-        id: 4,
-        icon: "iconfont icon-tupianguanli1", 
-        title: "图片管理",
-        name: "",    // 路由名称
-        children: [
-            {
-                id: 12,
-                icon: "iconfont icon-tupianguanli1", 
-                title: "图片列表", 
-                name: "avatar_list",    // 路由名称
-            },
-        ]
-    },
+   
     {
         id: 5,
         icon: "iconfont icon-16", 
