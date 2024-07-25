@@ -9,7 +9,7 @@ const (
 	Qiniu ImageType = 2 //七牛云
 )
 
-func (s ImageType) MashalJSON() ([]byte, error) {
+func (s ImageType) MarshalJSON() ([]byte, error) {
 	return json.Marshal(s.String())
 }
 

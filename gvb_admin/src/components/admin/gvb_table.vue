@@ -9,7 +9,7 @@
             />
             <slot name="filters"></slot>
             <div class="gvb_refresh">
-                    <a-button title="刷新" @click="refresh"><i class="fa fa-refresh"></i></a-button>
+                <a-button title="刷新" @click="refresh"><i class="fa fa-refresh"></i></a-button>
             </div>
         </div>
         <div class="gvb_divider"></div>
@@ -19,7 +19,7 @@
             </slot>
             <slot name="batchRemove">
                 <a-button type="primary" danger @click="removeBatch"
-                    v-if="isDelete && data.selectedRowKeys.length">批量删除</a-button>
+                    v-if="props.isDelete && data.selectedRowKeys.length">批量删除</a-button>
             </slot>
         </div>
         <div class="gvb_tables">
@@ -42,10 +42,8 @@
                                         <a-button class="gvb_table_action delete" type="primary" danger>删除</a-button>
                                     </a-popconfirm>
                                 </slot>
-
                             </template>
                         </slot>
-
                     </template>
                 </a-table>
             </a-spin>
@@ -60,9 +58,8 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { getFormatDate } from '@/utils/data';
-import { userCreateApi, useRemoveBatchApi, userListApi, updateUserNickNameApi } from '@/api/user_api';
+import { baseDeleteApi, baseListApi } from '@/api/base_api';
 import { message } from 'ant-design-vue';
-import { baseListApi } from '@/api/base_api';
 
 const emits = defineEmits(["delete", "edit"])
 const props = defineProps({
@@ -79,7 +76,6 @@ const props = defineProps({
     isEdit: {
         type: Boolean,
         default: true
-
     },
     isDelete: {
         type: Boolean,
@@ -96,7 +92,12 @@ const props = defineProps({
         type: String,
         default: "模糊搜索"
     },
+    defaultDelete:{
+        type: Boolean, 
+        default: false
+    }
 })
+
 const page = reactive({
     page: 1,
     limit: props.pageSize,
@@ -114,16 +115,39 @@ function onSelectChange(selectedRowkeys) {
 }
 
 async function removeBatch() {
-    emits("delete", [data.selectedRowKeys]);
+    if (props.defaultDelete){
+        let res = await baseDeleteApi(props.baseURL, data.selectedRowKeys);
+        if (res.code){
+            message.error(res.msg);
+            return
+        }
+        message.success(res.msg);
+        getData(page);
+        return;
+    }
+    emits("delete", data.selectedRowKeys);
 }
 
-function pageChange(_page,limit) {
+function pageChange(_page, limit) {
+    page.page = _page;
+    page.limit = limit;
     getData(page);
 }
 
-async function userRemove(user_id) {
-    emits("delete", [user_id]);
+async function userRemove(id) {
+    if (props.defaultDelete){
+        let res = await baseDeleteApi(props.baseURL, [id]);
+        if (res.code){
+            message.error(res.msg);
+            return
+        }
+        message.success(res.msg);
+        getData(page);
+        return;
+    }
+    emits("delete", [id]);
 }
+
 async function getData(params) {
     data.spinning = true;
     let res = await baseListApi(props.baseURL, params);
@@ -137,23 +161,29 @@ function onSearch(){
     page.page = 1;
     getData(page);
 }
+
 function refresh() {
     getData(page);
     message.success('刷新成功');
 }
 
 function addModal() {
-    data.modalVidible = true;
+    data.modalVisible = true;
 }
-function ExportList(params){
-    page.page = 1;
-    Object.assign(page,params)
-    getData(page)   
 
+function ExportList(params) {
+    if (!params) {
+        params = {};
+    }
+    page.page = 1;
+    Object.assign(page, params);
+    getData(page);
 }
+
 defineExpose({
     ExportList,
 })
+
 getData(page);
 </script>
 
@@ -176,7 +206,6 @@ getData(page);
                 color: var(--text);
             }
         }
-
     }
 
     .gvb_divider {
