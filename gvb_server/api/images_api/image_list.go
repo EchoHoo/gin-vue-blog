@@ -17,8 +17,7 @@ func (ImagesApi) ImageListView(c *gin.Context) {
 	}
 	list, count, _ := common.ComList(models.BannerModel{}, common.Option{
 		PageInfo: cr,
-		Debug:    false,
+		Likes:    []string{"name"},
 	})
 	res.OkWithList(list, count, c)
-
 }

@@ -1,5 +1,19 @@
 <template>
     <div>
+        <a-modal title="上传图片" v-model:visible="data.visible" @ok="uploadComplete">
+            <a-upload
+                v-model:file-list="data.fileList"
+                action="/api/images"
+                list-type="picture-card"
+                name="images"
+                multiple
+                :headers="{token: store.userInfo.token}"
+             
+            >  
+                <i class="fa fa-cloud-upload"></i>
+                <div style="margin-left: 5px;">上传图片</div>
+            </a-upload>
+        </a-modal>
         <a-modal 
             title="编辑图片" 
             v-model:visible="data.modalVisible"
@@ -25,7 +39,7 @@
             default-delete
         >
             <template #add>
-                <!-- Add button or any content here -->
+                <a-button type="primary" @click="data.visible = true">上传图片</a-button>
             </template>
             <template #edit="{record}">
                 <a-button type="primary" @click="updateModal(record)">编辑</a-button>
@@ -42,9 +56,11 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import GVBTable from '@/components/admin/gvb_table.vue'
-import { imageRenameApi, imageDeleteApi } from '@/api/image_api';  // 确保你有正确的删除 API
+import { imageRenameApi } from '@/api/image_api';
 import { message } from 'ant-design-vue';
+import { useStore } from '@/stores/store';
 
+const store = useStore();
 const gvbTable = ref(null);
 const formRef = ref(null);
 
@@ -58,6 +74,7 @@ const data = reactive({
         { title: '操作', key: 'action', dataIndex: 'action' },
     ],
     modalVisible: false,
+    visible: false,
 });
 
 const updateState = reactive({
@@ -73,6 +90,12 @@ function updateModal(record) {
     updateState.path = record.path;
 }
 
+// function Delete(idList) {
+//     console.log(idList);
+// }
+
+
+
 async function update(){
     try{
         let res = await imageRenameApi(updateState) 
@@ -84,22 +107,14 @@ async function update(){
         data.modalVisible = false;
         gvbTable.value.ExportList()
     }catch(e){
-        message.error('更新失败');
+        
     }
-}
+    imageRenameApi(updateState)
+}   
 
-async function Delete(id){
-    try{
-        let res = await imageDeleteApi([id]);  // 确保正确的 API 被调用
-        if (res.code){
-            message.error(res.msg);
-            return;
-        }
-        message.success(res.msg);
-        gvbTable.value.ExportList();
-    }catch(e){
-        message.error('删除失败');
-    }
+function uploadComplete(){
+    data.visible = false;
+    gvbTable.value.ExportList()
 }
 </script>
 

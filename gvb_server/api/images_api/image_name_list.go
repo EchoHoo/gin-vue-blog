@@ -20,5 +20,4 @@ func (ImagesApi) ImageNameListView(c *gin.Context) {
 	global.DB.Model(models.BannerModel{}).Select("id,path,name").Scan(&imageList)
 
 	res.OkWithData(imageList, c)
-
 }

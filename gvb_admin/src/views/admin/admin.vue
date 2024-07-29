@@ -1,4 +1,3 @@
-
 <template>
   <div class="gvb_admin">
     <GVBAside>
@@ -24,11 +23,16 @@
           </GVBUserInfo>
         </div>
       </header>
-      <div class="tabs"></div>
+      <!-- <div class="tabs"></div> -->
+      <GVBTabs></GVBTabs>
       <main>
         <div class="gvb_view">
           <div class="gvb_view">
-            <router-view/>
+            <router-view v-slot="{ Component }">
+              <transition name="fade" mode="out-in">
+                <component :is="Component"></component>
+              </transition>
+            </router-view>
           </div>
         </div>
       </main>
@@ -39,6 +43,7 @@
 import GVBTheme from "../../components/gvb_theme.vue"
 import GVBAside from "../../components/admin/gvb_aside.vue"
 import GVBUserInfo from "../../components/gvb_user_info.vue"
+import GVBTabs from "../../components/admin/gvb_tabs.vue"
 import {ref} from "vue";
 
 
@@ -52,7 +57,6 @@ import {ref} from "vue";
     width:240px;
     height: 100vh;
     background: var(--gradient_bg);
-    //background-color: transparent;
 
   }
   
@@ -119,4 +123,25 @@ import {ref} from "vue";
 }
 
 
+</style>
+
+<style>
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.fade-enter-active {
+  transform: translateX(-30px);
+  opacity: 0;
+}
+
+.fade-enter-to {
+  transform: translateX(0px);
+  opacity: 1;
+}
+
+.fade-leave-active, .fade-enter-active {
+  transition: all 0.3s ease-out;
+}
 </style>
