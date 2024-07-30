@@ -23,12 +23,13 @@ func (AdvertApi) AdvertListView(c *gin.Context) {
 		res.FailWithCode(res.ArgumentError, c)
 		return
 	}
-	referer := c.GetHeader("Referer")
+	referer := c.GetHeader("Gvb_referer")
 	isShow := true
 	if strings.Contains(referer, "admin") {
 		//admin来的
 		isShow = false
 	}
+
 	//判断Referer是否包含admin，如果是就全部返回，不是就返回is_show=true的广告
 	list, count, _ := common.ComList(models.AdvertModel{IsShow: isShow}, common.Option{
 		PageInfo: cr,

@@ -50,7 +50,7 @@
         </div>
         <div class="gvb_pages">
             <a-pagination show-less-items v-model:current="page.page" @change="pageChange"
-                v-model:page-size="page.limit" :total="data.count" :show-total="total => ` 共 ${total} 人`" />
+                v-model:page-size="page.limit" :total="data.count" :show-total="total => `  ${total} `" />
         </div>
     </div>
 </template>
