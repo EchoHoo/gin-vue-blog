@@ -280,6 +280,18 @@ const data = reactive({
     },
     {
         id: 4,
+        icon: "iconfont icon-tupianguanli1",
+        title: "广告管理",
+        name: "",
+        children: [{
+            id: 13,
+            icon: "iconfont icon-tupianguanli1",
+            title: "广告列表",
+            name: "advert_list",
+        },]
+    },
+    {
+        id: 5,
         icon: "fa-cogs",
         title: "系统管理",
         name: "",
