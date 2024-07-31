@@ -126,25 +126,27 @@ async function removeBatch() {
         return;
     }
     emits("delete", data.selectedRowKeys);
+    data.selectedRowKeys = [];
 }
 
 function pageChange(_page, limit) {
     page.page = _page;
     page.limit = limit;
     getData(page);
+
 }
 
 async function userRemove(id) {
-    if (props.defaultDelete){
-        let res = await baseDeleteApi(props.baseURL, [id]);
-        if (res.code){
-            message.error(res.msg);
-            return
-        }
-        message.success(res.msg);
-        getData(page);
-        return;
+    if (props.defaultDelete) {
+    let res = await baseDeleteApi(props.baseURL, [id])
+    if (res.code) {
+      message.error(res.msg)
+      return
     }
+    message.success(res.msg)
+    getData(page)
+    return
+  }
     emits("delete", [id]);
 }
 

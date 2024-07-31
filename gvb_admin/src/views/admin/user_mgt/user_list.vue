@@ -81,6 +81,7 @@ import { reactive, ref } from 'vue'
 import { userCreateApi, updateUserNickNameApi, userListApi } from '@/api/user_api';
 import { message } from 'ant-design-vue';
 import GVBTable from '@/components/admin/gvb_table.vue'
+import { baseDeleteApi } from '@/api/base_api';
 
 const formRef = ref(null);
 const filter = ref(undefined)
@@ -126,8 +127,14 @@ function onFilters(){
     console.log(filter.value);
     gvbTable.value.ExportList({role:filter.value})
 }
-function userDelete(userIdList) {
-    console.log(userIdList);
+async function userDelete(userIdList) {
+    let res = await baseDeleteApi('/api/users', userIdList);
+    if (res.code) {
+        message.error(res.msg);
+        return;
+    }
+    message.success(res.msg);
+    gvbTable.value.ExportList(); // Refresh table data
 }
 
 function updateModal(record) {
