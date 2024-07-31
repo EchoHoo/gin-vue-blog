@@ -142,6 +142,7 @@ function updateModal(record) {
     formUpdateState.user_id = record.id;
     formUpdateState.nick_name = record.nick_name;
     formUpdateState.role = record.role;
+    getData();
 }
 
 async function handleOk() {
@@ -156,6 +157,7 @@ async function handleOk() {
         message.success(res.msg);
         data.modalVidible = false;
         formRef.value.resetFields();
+        gvbTable.value.ExportList();
         getData();
     } catch (e) {
         console.error('Validation or API call failed:', e);
@@ -182,12 +184,14 @@ async function update() {
     }
     message.success(res.msg);
     data.modalUpdateVidible = false;
+    gvbTable.value.ExportList();
     getData();
 }
 async function getData() {
     // 调用 GVBTable 组件中的 getData 方法
     const tableComponent = ref(null);
     tableComponent.value.getData();
+    gvbTable.value.ExportList();
 }
 </script>
 

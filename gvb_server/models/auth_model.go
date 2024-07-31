@@ -32,6 +32,7 @@ func (m *MODEL) BeforeSave(db *gorm.DB) error {
 		m.Update = time.Now()
 	} else {
 		m.CreateAt = time.Now()
+		m.Update = time.Now()
 	}
 	return nil
 }
@@ -40,6 +41,7 @@ func (m *MODEL) BeforeUpdate(db *gorm.DB) error {
 		m.Update = time.Now()
 	} else {
 		m.CreateAt = time.Now()
+		m.Update = time.Now()
 	}
 	return nil
 }

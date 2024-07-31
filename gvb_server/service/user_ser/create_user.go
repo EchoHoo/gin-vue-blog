@@ -1,6 +1,7 @@
 package user_ser
 
 import (
+	"fmt"
 	"gvb_server/gvb_server/global"
 	"gvb_server/gvb_server/models"
 	"gvb_server/gvb_server/models/ctype"
@@ -27,6 +28,7 @@ func (UserService) CreateUser(userName, nickName, password string, role ctype.Ro
 	avatar := Avatar
 
 	addr := utils.GetAddr(ip)
+	fmt.Println("addr:-->>", addr)
 	//入库
 	err = global.DB.Create(&models.UserModel{
 		UserName:   userName,

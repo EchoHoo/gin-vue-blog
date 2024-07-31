@@ -11,7 +11,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-const ConfigFile = "D:\\gin-vue-blog\\gvb_server\\settings.yaml"
+const ConfigFile = "./settings.yaml"
 
 // 读取配置 yaml文件的配置
 func InitConf() {

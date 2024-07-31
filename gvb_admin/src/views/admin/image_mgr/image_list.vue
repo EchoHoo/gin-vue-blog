@@ -94,8 +94,6 @@ function updateModal(record) {
 //     console.log(idList);
 // }
 
-
-
 async function update(){
     try{
         let res = await imageRenameApi(updateState) 
