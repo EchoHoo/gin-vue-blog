@@ -1,10 +1,10 @@
 <template>
   <div>
-    <a-modal title="添加菜单" v-model:visible="data.visible">
+    <a-modal title="添加菜单" v-model:visible="data.visible" @ok="handleOk">
       <a-form
       :model="state"
       name="basic"
-      ref="formReef"
+      ref="formRef"
       :label-col="{ span: 8 }"
       :wrapper-col="{ span: 20 }"
       autocomplete="off"
@@ -20,7 +20,14 @@
           <a-input v-model:value="state.slogan" placeholder="slogan"></a-input>
         </a-form-item>
         <a-form-item label="菜单简介" name="abstract" has-feedback>
-          <a-input v-model:value="state.abstract" placeholder="菜单简介"></a-input>
+          <a-textarea 
+          v-model:value="state_abstract" 
+          name="abstract" 
+          placeholder="菜单简介，支持多行" 
+          :auto-size="{ minRows: 2, maxRows: 6 }"
+        >
+          </a-textarea>
+          <!-- <a-input v-model:value="state_abstract" placeholder="菜单简介"></a-input> -->
         </a-form-item>
         <a-form-item label="banner时间" name="banner_time" has-feedback >
           <a-input-number v-model:value="state.banner_time" placeholder="banner时间"></a-input-number>
@@ -30,6 +37,17 @@
         </a-form-item>
         <a-form-item label="序号" name="sort" has-feedback>
           <a-input-number v-model:value="state.sort" placeholder="请输入序号"></a-input-number>
+        </a-form-item>
+        <a-form-item label="banner选择">
+             <a-select v-model:value="bannerIDList" placeholder="请选择banner" mode="multiple" @change="handleBannerChange">
+               <a-select-option v-for="item in data.imageNameList" :key="item.id" :value="item.id">
+                <img :src="item.path" alt="" height="30" style="border-radius: 5px; margin-right: 10px;">
+                <span>{{ item.name }}</span>
+              </a-select-option>
+              <template #tagRender="{value:val,label,closable,onClose,option}">
+                  <img :src="getLabel(label)" height="30" style="border-radius: 5px; margin-right: 10px;">
+              </template>
+             </a-select>
         </a-form-item>
 
       </a-form>
@@ -60,8 +78,15 @@
 <script setup>
 import { reactive, ref } from 'vue';
 import GVBTable from '@/components/admin/gvb_table.vue'
+import { imageNameListApi } from '@/api/image_api';
+import { createMenuApi } from '@/api/menu_api';
+import { message } from 'ant-design-vue';
+
 
 const state_abstract = ref("")
+const formRef = ref(null)
+const bannerIDList = ref([])
+const gvbTable = ref(null);
 const _state = {  
   abstract_time: 7,
   banner_time: 7,
@@ -97,13 +122,48 @@ const data = reactive({
     { title: '操作', key: 'action', dataIndex: 'action' },
   ],
   visible:false,
+  imageNameList: [],
 });
-
+function getLabel(label){
+  return label[0].props.src
+}
+function handleBannerChange(idList){
+  state.image_sort_list = []
+  for(let i=0;i<idList.length;i++){
+    state.image_sort_list.push({
+      image_id: idList[i],
+      sort: i
+    })
+  }
+  
+}
+async function getData(){
+  let res = await imageNameListApi()
+  data.imageNameList = res.data
+}
+getData()
 function addMenu() {
   Object.assign(state, _state)
 
   data.visible = true
 
+}
+async function handleOk() {
+  formRef.value.validate();
+  state.abstract = state_abstract.value.split("\n")
+
+  let res = await createMenuApi(state)
+  if (res.code){
+    message.error(res.msg)
+    return
+  }
+  message.success(res.msg)
+  data.visible = false
+  state_abstract.value = ""
+  bannerIDList.value = []
+  gvbTable.value.ExportList()
+  
+  console.log(state)
 }
 function updateModal(record) {
 

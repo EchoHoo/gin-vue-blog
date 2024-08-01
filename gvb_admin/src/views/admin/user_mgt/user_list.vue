@@ -147,7 +147,7 @@ function updateModal(record) {
 
 async function handleOk() {
     try {
-        await formRef.value?.validate();
+        await formRef.value.validate();
         console.log(formState);
         let res = await userCreateApi(formState);
         if (res.code) {
