@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-modal title="添加菜单" v-model:visible="data.visible" @ok="handleOk">
+    <a-modal :title="editID?'编辑菜单':'添加菜单'" v-model:visible="data.visible" @ok="handleOk">
       <a-form
       :model="state"
       name="basic"
@@ -62,12 +62,16 @@
       </template>
       <template #cell="{ column, record }">
         <template v-if="column.key === 'abstract'">
-          <span v-for="(item, index) in record.abstract" :key="index">
-            {{ item }}
-          </span>
+          <div style="display: grid; grid-template-columns: repeat(3,1fr);grid-column-gap: 5px;grid-column-gap: 5px;">
+            <div v-for="(item, index) in record.abstract" :key="index">{{ item }}</div>
+          </div>
         </template>
         <template v-if="column.key === 'banners'">
-          <img v-for="item in record.banners" :key="index" :src="item.path" style="height:40px;border-radius: 5px;" />
+          <div style="display: grid; grid-template-columns: repeat(3,1fr);grid-row-gap: 5px;grid-column-gap: 5px;">
+            <img v-for="item in record.banners" :key="index" :src="item.path" style="height:40px;border-radius: 5px;" />
+          </div>
+
+   
         </template>
       </template>
 
@@ -79,7 +83,7 @@
 import { reactive, ref } from 'vue';
 import GVBTable from '@/components/admin/gvb_table.vue'
 import { imageNameListApi } from '@/api/image_api';
-import { createMenuApi } from '@/api/menu_api';
+import { createMenuApi, updateMenuApi } from '@/api/menu_api';
 import { message } from 'ant-design-vue';
 
 
@@ -92,7 +96,7 @@ const _state = {
   banner_time: 7,
   path: "",
   slogan: "",
-  sort: 0,
+  sort: 1,
   title: "",
   abstract:[],
   image_sort_list:[],
@@ -102,7 +106,7 @@ const state = reactive({
   banner_time: 7,
   path: "",
   slogan: "",
-  sort: 0,
+  sort: 1,
   title: "",
   abstract:[],
   image_sort_list:[],
@@ -144,15 +148,24 @@ async function getData(){
 getData()
 function addMenu() {
   Object.assign(state, _state)
-
+  editID.value = 0
   data.visible = true
 
 }
 async function handleOk() {
-  formRef.value.validate();
+  try{
+    formRef.value.validate();
+  }catch(err){
+    return 
+  }
   state.abstract = state_abstract.value.split("\n")
+  let res 
+  if(editID.value){
+    res = await updateMenuApi(editID.value, state)
+  }else{
+    res = await createMenuApi(state)
+  }
 
-  let res = await createMenuApi(state)
   if (res.code){
     message.error(res.msg)
     return
@@ -165,8 +178,29 @@ async function handleOk() {
   
   console.log(state)
 }
+const editID = ref(0)
 function updateModal(record) {
-
+  editID.value = record.id
+  state.title = record.title
+  state.path = record.path
+  state.slogan = record.slogan
+  state.sort = record.sort
+  state.abstract_time = record.abstract_time
+  state.banner_time = record.banner_time
+  state_abstract.value = record.abstract.join("\n")
+  
+  bannerIDList.value = []
+  state.image_sort_list=[]
+  for(let i=0;i<record.banners.length;i++){
+    bannerIDList.value.push(record.banners[i].id) 
+    state.image_sort_list.push({
+      image_id: record.banners[i].id,
+      sort: i
+    })
+  }
+  // state.abstract = record.abstract
+  // state.image_sort_list = []
+  data.visible = true
 }
 </script>
 
