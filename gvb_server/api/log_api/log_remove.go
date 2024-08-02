@@ -5,6 +5,7 @@ import (
 	"gvb_server/gvb_server/global"
 	"gvb_server/gvb_server/models"
 	"gvb_server/gvb_server/models/res"
+	"gvb_server/gvb_server/plugins/log_stash"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +17,7 @@ func (LogApi) LogRemoveListView(c *gin.Context) {
 		res.FailWithCode(res.ArgumentError, c)
 		return
 	}
-	var logList []models.LoginDataModel
+	var logList []log_stash.LogStashModel
 	count := global.DB.Find(&logList, cr.IDList).RowsAffected
 	if count == 0 {
 		res.FailWithMessage("没有找到相关日志", c)

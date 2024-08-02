@@ -4,7 +4,7 @@ import "time"
 
 type LogStashModel struct {
 	ID       uint      `gorm:"primarykey" json:"id"`
-	CreateAt time.Time `json:"create_at"`
+	CreateAt time.Time `json:"created_at"`
 	IP       string    `gorm:"size:32" json:"ip"`
 	Addr     string    `gorm:"size:64" json:"addr"`
 	Level    Level     `gorm:"size:4" json:"level"`     // 日志级别

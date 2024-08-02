@@ -91,13 +91,13 @@ const data = reactive({
     {
         id: 10,
         icon: "fa-cogs",
-        title: "系统管理",
+        title: "日志管理",
         name: "",
         children: [{
             id: 11,
             icon: "fa-cog",
-            title: "系统配置",
-            name: "system_list",
+            title: "日志管理",
+            name: "log_list",
         },]
     },
     ],

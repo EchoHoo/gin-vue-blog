@@ -37,8 +37,11 @@
                                     <a-button type="primary" v-if="props.isEdit">编辑</a-button>
                                 </slot>
                                 <slot name="delete" v-bind="{ column, record }">
-                                    <a-popconfirm title="是否确定删除?" ok-text="确认" cancel-text="取消"
-                                        @confirm="userRemove(record.id)" v-if="props.isDelete">
+                                    <a-popconfirm title="是否确定删除?" 
+                                        ok-text="确认" 
+                                        cancel-text="取消"
+                                        @confirm="userRemove(record.id)" 
+                                        v-if="props.isDelete">
                                         <a-button class="gvb_table_action delete" type="primary" danger>删除</a-button>
                                     </a-popconfirm>
                                 </slot>
