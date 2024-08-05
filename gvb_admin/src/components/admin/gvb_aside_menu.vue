@@ -112,6 +112,13 @@ const data = reactive({
         id: 12,
         icon: "fa-cogs",
         title: "群聊消息",
+        name: "chat_list",
+        children: []
+    },
+    {
+        id: 12,
+        icon: "fa-cogs",
+        title: "消息列表",
         name: "message_list",
         children: []
     },
