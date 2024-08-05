@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/olivere/elastic/v7"
 	"github.com/sirupsen/logrus"
@@ -160,20 +161,20 @@ func Remove(idList []string) (count int, err error) {
 }
 func TestDemo(t *testing.T) {
 	// 创建索引
-	//DemoModel{}.CreateIndex()
+	DemoModel{}.CreateIndex()
 	// 插入数据
-	// Create(&DemoModel{
-	// 	ID:        "5",
-	// 	Title:     "Jaba",
-	// 	UserID:    5,
-	// 	CreatedAt: time.Now().Format("2006-01-02 15:04:05"),
-	// })
-	//client.ClearCache()
-	// list, count := FindList("", 1, 10)
-	// fmt.Println(list, count)
+	Create(&DemoModel{
+		ID:        "5",
+		Title:     "Jaba",
+		UserID:    5,
+		CreatedAt: time.Now().Format("2006-01-02 15:04:05"),
+	})
+	client.ClearCache()
+	list, count := FindList("", 1, 10)
+	fmt.Println(list, count)
 
-	// FindSourceList("Python", 1, 1) // 这里搜索有点问题，返回所有了
-	//Updata("rc3lg44Bc16GF50VRp7g", &DemoModel{Title: "Python1"})
-	count, err := Remove([]string{"qs2Ofo4Bc16GF50VZJ4K"})
+	FindSourceList("Python", 1, 1) // 这里搜索有点问题，返回所有了
+	// Updata("rc3lg44Bc16GF50VRp7g", &DemoModel{Title: "Python1"})
+	// count, err := Remove([]string{"qs2Ofo4Bc16GF50VZJ4K"})
 	fmt.Println(count, err)
 }

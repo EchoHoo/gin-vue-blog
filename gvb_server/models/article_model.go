@@ -81,35 +81,34 @@ func (ArticleModel) Mapping() string {
 		  "type": "integer"
 		},
 		"user_nick_name": { 
-		  "type": "keyword"
+		  "type": "text"
 		},
 		"user_avatar": { 
-		  "type": "keyword"
+		  "type": "text"
 		},
 		"category": { 
-		  "type": "keyword"
+		  "type": "text"
 		},
 		"source": { 
-		  "type": "keyword"
+		  "type": "text"
 		},
 		"link": { 
-		  "type": "keyword"
+		  "type": "text"
 		},
 		"banner_id": {
-		  "type": "keyword"
+		  "type": "integer"
 		},
 		"banner_url": { 
-		  "type": "keyword"
-		},
-		"tags": { 
-		  "type": "keyword"
+		  "type": "text"
 		},
 		"created_at":{
 		  "type": "date",
+		  "null_value": "null",
 		  "format": "[yyyy-MM-dd HH:mm:ss]"
 		},
 		"updated_at":{
 		  "type": "date",
+		  "null_value": "null",
 		  "format": "[yyyy-MM-dd HH:mm:ss]"
 		}
 	  }

@@ -67,7 +67,7 @@ redis:
   password: ""
   pool_size: 100
 es:
-  host: "http://www.obtoes.com.vip.cpolar.top"
+  host: http://www.obtoes.com.vip.cpolar.top
   port:
   user:
   password:
