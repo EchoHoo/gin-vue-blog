@@ -24,7 +24,7 @@ func (LogApi) LogListView(c *gin.Context) {
 
 	list, count, _ := common.ComList(log_stash.LogStashModel{Level: cr.Level}, common.Option{
 		PageInfo: cr.PageInfo,
-		Likes:    []string{"ip", "addr"},
+		// Likes:    []string{"ip", "addr"},
 	})
 	res.OkWithList(list, count, c)
 }

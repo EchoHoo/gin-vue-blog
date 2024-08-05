@@ -53,6 +53,13 @@ const router = createRouter({
           name:"system_list",
           component:()=>import("../views/admin/system_mgr/system_list.vue")
         },
+        {
+          
+            path:"message_list",
+            name:"message_list",
+            component:()=>import("../views/admin/message_list.vue")
+          
+        }
 
       ]
     },

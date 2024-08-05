@@ -1,4 +1,3 @@
-
 <template>
     <a-menu v-model:selectedKeys="selectedKeys" mode="inline" :inline-collapsed="false" @click="goto"
         @openChange="onOpenChange" :open-keys="data.openKeys">
@@ -25,11 +24,20 @@
     </a-menu>
 </template>
 
+
 <script setup>
 import { useStore } from '@/stores/store';
 import { reactive, ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
-
+const levelColor = {
+    "debug": "green",
+    "info": "blue",
+    "warn": "orange",
+    "error": "red"
+}
+const levelOptions = [
+    { label: "debug", value: 1, }, { label: "info", value: 2, }, { label: "warn", value: 3, }, { label: "error", value: 4, },
+]
 const selectedKeys = ref([]);
 const store = useStore();
 const data = reactive({
@@ -100,6 +108,13 @@ const data = reactive({
             name: "log_list",
         },]
     },
+    {
+        id: 12,
+        icon: "fa-cogs",
+        title: "群聊消息",
+        name: "message_list",
+        children: []
+    },
     ],
     openKeys: []
 });
@@ -165,6 +180,7 @@ loadRoute();
 .ant-menu-submenu.ant-menu-submenu-inline {
     color: white;
 }
+
 .ant-menu .ant-menu-submenu.ant-menu-submenu-selected {
     color: inherit !important;
 }
