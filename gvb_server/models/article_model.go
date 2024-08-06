@@ -101,15 +101,15 @@ func (ArticleModel) Mapping() string {
 		"banner_url": { 
 		  "type": "text"
 		},
-		"created_at":{
-		  "type": "date",
-		  "null_value": "null",
-		  "format": "[yyyy-MM-dd HH:mm:ss]"
-		},
+		"created_at": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss",
+          "null_value": "1970-01-01 00:00:00"
+      	},
 		"updated_at":{
 		  "type": "date",
-		  "null_value": "null",
-		  "format": "[yyyy-MM-dd HH:mm:ss]"
+       	  "format": "yyyy-MM-dd HH:mm:ss",
+          "null_value": "1970-01-01 00:00:00"
 		}
 	  }
 	}
@@ -155,7 +155,7 @@ func (a ArticleModel) CreateIndex() error {
 }
 
 // RemoveIndex 删除索引
-func (a ArticleModel) RemoveIndex() error {
+func (a *ArticleModel) RemoveIndex() error {
 	logrus.Info("索引存在，删除索引")
 	// 删除索引
 	indexDelete, err := global.ESClient.DeleteIndex(a.Index()).Do(context.Background())
@@ -185,7 +185,7 @@ func (a *ArticleModel) Create() (err error) {
 	return nil
 }
 
-func (a ArticleModel) ISExistData() bool {
+func (a *ArticleModel) ISExistData() bool {
 	boolSearch := elastic.NewBoolQuery()
 	boolSearch.Must(
 		elastic.NewTermQuery("keyword", a.Keyword),

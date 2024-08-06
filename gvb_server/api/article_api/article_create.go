@@ -5,7 +5,6 @@ import (
 	"gvb_server/gvb_server/models"
 	"gvb_server/gvb_server/models/ctype"
 	"gvb_server/gvb_server/models/res"
-	"gvb_server/gvb_server/service/es_ser"
 	"gvb_server/gvb_server/utils/jwts"
 	"math/rand"
 	"strings"
@@ -41,15 +40,16 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 	claims := _claims.(*jwts.CustomClaims)
 	userID := claims.UserID
 	userNickName := claims.NickName
-	//校验context xss攻击
+	// 校验content  xss
 
-	//处理content
+	// 处理content
 	unsafe := blackfriday.MarkdownCommon([]byte(cr.Content))
-	//是不是有script标签
+	// 是不是有script标签
 	doc, _ := goquery.NewDocumentFromReader(strings.NewReader(string(unsafe)))
+	//fmt.Println(doc.Text())
 	nodes := doc.Find("script").Nodes
 	if len(nodes) > 0 {
-		//有script标签，不允许发布
+		// 有script标签
 		doc.Find("script").Remove()
 		converter := md.NewConverter("", true, nil)
 		html, _ := doc.Html()
@@ -57,49 +57,48 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 		cr.Content = markdown
 	}
 	if cr.Abstact == "" {
-		//汉字的截取不一样
+		// 汉字的截取不一样
 		abs := []rune(doc.Text())
+		// 将content转为html，并且过滤xss，以及获取中文内容
 		if len(abs) > 100 {
 			cr.Abstact = string(abs[:100])
 		} else {
-			cr.Abstact = string(abs[:])
+			cr.Abstact = string(abs)
 		}
-
 	}
 
-	// 不传bannerid
+	// 不传banner_id,后台就随机去选择一张
 	if cr.BannerID == 0 {
-		var bannerIdList []uint
-		global.DB.Model(models.BannerModel{}).Select("id").Scan(&bannerIdList)
-		if len(bannerIdList) == 0 {
-			res.FailWithMessage("没有可用的banner", c)
+		var bannerIDList []uint
+		global.DB.Model(models.BannerModel{}).Select("id").Scan(&bannerIDList)
+		if len(bannerIDList) == 0 {
+			res.FailWithMessage("没有banner数据", c)
+			return
 		}
 		rand.Seed(time.Now().UnixNano())
-		cr.BannerID = bannerIdList[rand.Intn(len(bannerIdList))]
+		cr.BannerID = bannerIDList[rand.Intn(len(bannerIDList))]
 	}
 
-	//查banner_id下的banner_url
+	// 查banner_id下的banner_url
 	var bannerUrl string
-	err = global.DB.Model(models.BannerModel{}).Where("id =?", cr.BannerID).Select("path").Scan(&bannerUrl).Error
+	err = global.DB.Model(models.BannerModel{}).Where("id = ?", cr.BannerID).Select("path").Scan(&bannerUrl).Error
 	if err != nil {
 		res.FailWithMessage("banner不存在", c)
 		return
 	}
 
-	//查用户头像
+	// 查用户头像
 	var avatar string
-	err = global.DB.Model(models.UserModel{}).Where("id =?", userID).Select("avatar").Scan(&avatar).Error
+	err = global.DB.Model(models.UserModel{}).Where("id = ?", userID).Select("avatar").Scan(&avatar).Error
 	if err != nil {
-		res.FailWithMessage("banner不存在", c)
+		res.FailWithMessage("用户不存在", c)
 		return
 	}
-
 	now := time.Now().Format("2006-01-02 15:04:05")
 	article := models.ArticleModel{
 		CreateAt:     now,
 		Update:       now,
 		Title:        cr.Title,
-		Keyword:      cr.Title,
 		Abstact:      cr.Abstact,
 		Content:      cr.Content,
 		UserID:       userID,
@@ -112,17 +111,13 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 		BannerUrl:    bannerUrl,
 		Tags:         cr.Tags,
 	}
-	if article.ISExistData() {
-		res.FailWithMessage("文章已经存在", c)
-		return
-	}
+
 	err = article.Create()
 	if err != nil {
 		global.Log.Error(err)
 		res.FailWithMessage(err.Error(), c)
 		return
 	}
-	go es_ser.AsyncArticleByFullText(article.ID, article.Title, article.Content)
 	res.OKWithMessage("文章发布成功", c)
 
 }

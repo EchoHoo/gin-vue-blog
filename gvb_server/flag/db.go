@@ -9,8 +9,8 @@ import (
 // 表的迁移
 func Makemigrations() {
 	var err error
-	//global.DB.SetupJoinTable(&models.UserModel{}, "CollectsModels", &models.UserCollectModel{}) //ok
-	global.DB.SetupJoinTable(&models.MenuModel{}, "Banners", &models.MenuBannerModel{}) //ok
+	global.DB.SetupJoinTable(&models.UserModel{}, "CollectsModels", &models.UserCollectModel{}) //ok
+	global.DB.SetupJoinTable(&models.MenuModel{}, "Banners", &models.MenuBannerModel{})         //ok
 
 	err = global.DB.Set("gorm:table_options", "ENGINE=InnoDB").
 		AutoMigrate(
@@ -20,7 +20,7 @@ func Makemigrations() {
 			&models.AdvertModel{},  //ok
 			&models.UserModel{},    //ok
 			&models.CommentModel{},
-			//&models.ArticleModel{},
+			&models.ArticleModel{},
 			&models.UserCollectModel{},
 			&models.MenuModel{},
 			&models.MenuBannerModel{},
