@@ -116,10 +116,17 @@ const data = reactive({
         children: []
     },
     {
-        id: 12,
+        id: 13,
         icon: "fa-cogs",
         title: "消息列表",
         name: "message_list",
+        children: []
+    },
+    {
+        id: 14,
+        icon: "fa-cogs",
+        title: "标签列表",
+        name: "tag_list",
         children: []
     },
     ],

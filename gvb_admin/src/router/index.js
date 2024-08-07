@@ -62,7 +62,12 @@ const router = createRouter({
           path:"message_list",
           name:"message_list",
           component:()=>import("../views/admin/message_list.vue")
-      }
+        },
+        {
+          path:"tag_list",
+          name:"tag_list",
+          component:()=>import("../views/admin/tag_list.vue")
+        },
 
       ]
     },
