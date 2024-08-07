@@ -129,6 +129,20 @@ const data = reactive({
         name: "tag_list",
         children: []
     },
+    {
+        id: 15,
+        icon: "fa-cogs",
+        title: "系统管理",
+        name: "",
+        children: [
+            {
+                id: 16,
+                icon: "fa-cogs",
+                title: "网站设置",
+                name: "system_site",
+            }
+        ]
+    },
     ],
     openKeys: []
 });
