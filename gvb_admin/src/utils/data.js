@@ -14,3 +14,14 @@ export function getFormatDate(dateStr){
     let currentDate = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;    
     return currentDate;
 }
+
+export function getFormatDateYMD(dateStr){
+    let date = new Date(dateStr);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    month = (month < 10? "0" : "") + month;
+    day = (day < 10? "0" : "") + day;
+    let currentDate = year + "-" + month + "-" + day;    
+    return currentDate;
+}
