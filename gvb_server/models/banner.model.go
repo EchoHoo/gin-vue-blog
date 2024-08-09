@@ -4,6 +4,7 @@ import (
 	"gvb_server/gvb_server/global"
 	"gvb_server/gvb_server/models/ctype"
 	"os"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -19,7 +20,8 @@ type BannerModel struct {
 func (b *BannerModel) BeforeDelete(tx *gorm.DB) (err error) {
 	if b.ImageType == ctype.Local {
 		//本地图片，删除，还要删除本地的存储
-		err = os.Remove(b.Path)
+		path := strings.TrimPrefix(b.Path, "/")
+		err = os.Remove(path)
 		if err != nil {
 			global.Log.Error(err)
 		}

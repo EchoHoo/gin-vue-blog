@@ -1,14 +1,14 @@
 mysql:
-  host: "1.tcp.vip.cpolar.cn"
+  host: 1.tcp.vip.cpolar.cn
   port: 22120
-  config: "charset=utf8mb4&parseTime=True&loc=Local"
+  config: charset=utf8mb4&parseTime=True&loc=Local
   db: gvb_db
   user: root
   password: "123456"
   log_level: dev
 logger:
   level: info
-  prefix: "[gvb]"
+  prefix: '[gvb]'
   director: log
   show_line: true
   log_in_console: true
@@ -16,17 +16,14 @@ system:
   host: 0.0.0.0
   port: 8080
   env: release
-upload:
-  size: 2
-  path: uploads/file
 site_info:
   created_at: "2024-03-11"
   bei_an: 闽ICP备2024031099号-1
   title: Obto的个人博客
-  qq_image: https://gitee.com/guo-cheng-hao/drawing-bed/raw/master/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/qq_image.png
+  qq_image: /uploads/file/qq_image.png
   version: 6.0.1
   email: Gch030819@163.com
-  wechat_image: https://gitee.com/guo-cheng-hao/drawing-bed/raw/master/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/wechat_image.png
+  wechat_image: /uploads/file/wechat_image.png
   name: "123123"
   job: 全栈
   addr: 福建福清
@@ -36,6 +33,9 @@ site_info:
   bilibili_url: http://new.qq.com/omn/20220418/20220418A0C42W00.html
   gitee_url: http://new.qq.com/omn/20220418/20220418A0C42W00.html
   github_url: http://new.qq.com/omn/20220418/20220418A0C42W00.html
+upload:
+  size: 2
+  path: uploads/file
 qq:
   app_id: xxxx
   key: xx
@@ -45,16 +45,16 @@ qiniu:
   access_key: biorfpl1KlGnePUX3WpwfKg49ve-cRbpZT0xrdhk
   secret_key: 8_H-xn8NeWdPGZ9AKtOvDEMZlP7CLa1Po9hL1Yc8
   bucket: obto-blog
-  cdn:
+  cdn: ""
   zone: z2
+  prefix: gvb
   size: 5
-  prefix: "gvb"
 email:
-  host: "smtp.qq.com"
+  host: smtp.qq.com
   port: 465
-  user: "2834592128@qq.com"
-  password: "daakcmanzdzsdhdd"
-  default_from_email: "2834592128@qq.com"
+  user: 2834592128@qq.com
+  password: daakcmanzdzsdhdd
+  default_from_email: 2834592128@qq.com
   use_ssl: true
   user_tls: false
 jwt:
@@ -62,12 +62,12 @@ jwt:
   expires: 96
   issuer: xx
 redis:
-  ip: "1.tcp.vip.cpolar.top"
+  ip: 1.tcp.vip.cpolar.top
   port: 11429
   password: ""
   pool_size: 100
 es:
   host: http://www.obtoes.com.vip.cpolar.top
-  port:
-  user:
-  password:
+  port: 0
+  user: ""
+  password: ""

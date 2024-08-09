@@ -10,7 +10,7 @@ type SiteInfo struct {
 	WechatImage string `yaml:"wechat_image" json:"wechat_image"`
 	Name        string `yaml:"name" json:"name"`
 	Job         string `yaml:"job" json:"job"`
-	Addr        string `yaml:"addr" json:"ddr"`
+	Addr        string `yaml:"addr" json:"addr"`
 	Slogan      string `yaml:"slogan" json:"slogan"`
 	SloganEn    string `yaml:"slogan_en" json:"slogan_en"`
 	Web         string `yaml:"web" json:"web"`
