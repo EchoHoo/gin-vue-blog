@@ -74,6 +74,11 @@ const router = createRouter({
             }
           ]
         },
+        {
+          path:"article_list",
+          name:"article_list",
+          component:()=>import("../views/admin/article_mgr/article_list.vue")
+        },
 
       ]
     },

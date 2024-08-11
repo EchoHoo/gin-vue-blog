@@ -29,6 +29,7 @@ func (TagApi) TagCreateView(c *gin.Context) {
 	err = global.DB.Create(&models.TagModel{
 		Title: cr.Title,
 	}).Error
+
 	if err != nil {
 		res.FailWithError(err, &cr, c)
 		global.Log.Error(err)

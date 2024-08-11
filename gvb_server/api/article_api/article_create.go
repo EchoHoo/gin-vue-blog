@@ -111,7 +111,19 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 		BannerUrl:    bannerUrl,
 		Tags:         cr.Tags,
 	}
-
+	// for _, title := range cr.Tags {
+	// 	// 查询tag是否存在
+	// 	var tag models.TagModel
+	// 	err = global.DB.Take(&tag, "title = ?", title).Error
+	// 	if err != nil {
+	// 		err = global.DB.Create(&models.TagModel{
+	// 			Title: title,
+	// 		}).Error
+	// 		if err != nil {
+	// 			global.Log.Error(err)
+	// 		}
+	// 	}
+	// }
 	err = article.Create()
 	if err != nil {
 		global.Log.Error(err)

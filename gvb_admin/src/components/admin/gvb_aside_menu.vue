@@ -143,6 +143,20 @@ const data = reactive({
             }
         ]
     },
+    {
+        id: 17,
+        icon: "fa-cogs",
+        title: "文章管理",
+        name: "",
+        children: [
+            {
+                id: 18,
+                icon: "fa-cogs",
+                title: "文章列表",
+                name: "article_list",
+            }
+        ]
+    },
     ],
     openKeys: []
 });
