@@ -22,4 +22,6 @@ func (router RouterGroup) ArticleRouter() {
 
 	router.GET("articles/text", app.FullTextSearchView) //全文搜索
 
+	router.GET("categorys", app.ArticleCategoryListView) //全文搜索
+
 }

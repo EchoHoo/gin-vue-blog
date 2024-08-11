@@ -154,6 +154,12 @@ const data = reactive({
                 icon: "fa-cogs",
                 title: "文章列表",
                 name: "article_list",
+            },
+            {
+                id: 19,
+                icon: "fa-cogs",
+                title: "文章添加",
+                name: "add_article",
             }
         ]
     },

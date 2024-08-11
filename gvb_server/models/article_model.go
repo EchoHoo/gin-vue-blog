@@ -87,7 +87,7 @@ func (ArticleModel) Mapping() string {
 		  "type": "text"
 		},
 		"category": { 
-		  "type": "text"
+		  "type": "keyword"
 		},
 		"source": { 
 		  "type": "text"

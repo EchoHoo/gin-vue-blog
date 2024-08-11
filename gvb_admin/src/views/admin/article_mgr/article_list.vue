@@ -51,6 +51,7 @@
 import { reactive, ref } from "vue";
 import GVBTable from "@/components/admin/gvb_table.vue"
 import { getTagNameListApi } from "@/api/tag_api";
+import { getCategoryListApi } from "@/api/article_api";
 
 const tag = ref(null)
 const category = ref(null)
@@ -58,7 +59,7 @@ const gvbTable = ref(null)
 const data = reactive({
     list: [
         {
-            "abstract": "需要一个全局变量，用于保存配置文件，存放在global目录下",
+            "abstract": "需要一个全局变量,用于保存配置文件,存放在global目录下",
             "banner_id": 3,
             "banner_url": "uploads/file/29.jpg",
             "category": "p1",
@@ -114,8 +115,8 @@ function onFilter() {
 async function getData() {
     let res = await getTagNameListApi()
     data.tagOptions = res.data
-    // let c = await getCategoryListApi()
-    // data.categoryOptions = c.data
+    let c = await getCategoryListApi()
+    data.categoryOptions = c.data
 }
 
 getData()
