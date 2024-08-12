@@ -1,13 +1,30 @@
 <template>
-    <md-editor v-model="data.content" @onUploadImg="onUploadImg" @on-save="onSave" />
+    <div>
+        <GVBArticleModal v-model:visible="visible" @ok="okHandler"></GVBArticleModal>
+        <md-editor v-model="data.content" @onUploadImg="onUploadImg" @on-save="onSave" />
+    </div>
+
 </template>
 
 <script setup>
 import { onUnmounted, reactive, ref } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import { uploadImageApi } from '@/api/image_api';
-
+import { imageNameListApi, uploadImageApi } from '@/api/image_api';
+import { createArticleApi, getCategoryListApi } from '@/api/article_api';
+import { getTagNameListApi } from '@/api/tag_api';
+import { message } from 'ant-design-vue';
+import { useRouter } from 'vue-router';
+import { useStore } from '@/stores/store';
+import GVBArticleModal from '@/components/admin/gvb_article_model.vue'
+const store = useStore();
+const router = useRouter();
+const initData = reactive({
+    tagList: [],
+    categoryList: [],
+    bannerList: [],
+})
+const visible = ref(false);
 const onUploadImg = async (files, callback) => {
     const res = await Promise.all(
         files.map((file) => {
@@ -24,8 +41,25 @@ const onUploadImg = async (files, callback) => {
     }).filter(url => url !== ''); // 过滤掉空字符串
     callback(fileUrls);
 };
+const _data = reactive({
+    content: "",
+    title: "",
+    abstract: "",
+    banner_id: 0,
+    category: "",
+    tags: [],
+    link: "",
+    source: "",
+})
 const data = reactive({
-    content: "hello"
+    content: "",
+    title: "",
+    abstract: "",
+    banner_id: 0,
+    category: "",
+    tags: [],
+    link: "",
+    source: "",
 })
 
 
@@ -33,7 +67,7 @@ function ctrlSave(e) {
     if (e.ctrlKey && e.key === 's') {
         showDrawer();
         e.preventDefault();
-        onSave(text.value, '');
+        // onSave(data.value, '');
     }
 }
 function showDrawer() {
@@ -47,4 +81,26 @@ onUnmounted(() => {
 const onSave = (md, h) => {
     showDrawer();
 }
+
+
+async function okHandler() {
+    Object.assign(data, state)
+    let res = await createArticleApi(data)
+    if (res.code) {
+        message.error(res.msg)
+        return
+    }
+    message.success(res.msg)
+
+    visible.value = false
+    Object.assign(data, _data)
+    // 先切换到文章列表
+    router.push({
+        name: "article_list"
+    })
+    // 删除添加文章的tab
+    store.removeTab({ name: "add_article" })
+    return
+}
+
 </script>

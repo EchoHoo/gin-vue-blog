@@ -2,7 +2,7 @@
     <div>
         <GVBTable :columns="data.columns" baseURL="/api/articles" like-title="搜索文章标题" ref="gvbTable" default-delete>
             <template #add>
-                <a-button type="primary">添加</a-button>
+                <a-button type="primary" @click="addArticle">添加</a-button>
             </template>
             <template #edit="{ record }">
                 <a-button type="primary">编辑</a-button>
@@ -15,7 +15,7 @@
                     <span class="gvb_article_title" v-html="record.title"></span>
                 </template>
                 <template v-if="column.key === 'banner_url'">
-                    <img :src="'/' + record.banner_url" alt="" height="60" style="border-radius: 5px">
+                    <img :src="record.banner_url" alt="" height="60" style="border-radius: 5px">
                 </template>
                 <template v-if="column.key === 'data'">
                     <div class="gvb_article_data">
@@ -52,33 +52,32 @@ import { reactive, ref } from "vue";
 import GVBTable from "@/components/admin/gvb_table.vue"
 import { getTagNameListApi } from "@/api/tag_api";
 import { getCategoryListApi } from "@/api/article_api";
-
+import { useRouter } from "vue-router";
+import { useStore } from "@/stores/store";
+const router = useRouter()
+const store = useStore()
 const tag = ref(null)
 const category = ref(null)
 const gvbTable = ref(null)
 const data = reactive({
     list: [
         {
-            "abstract": "需要一个全局变量,用于保存配置文件,存放在global目录下",
+            "abstract": "",
             "banner_id": 3,
-            "banner_url": "uploads/file/29.jpg",
+            "banner_url": "",
             "category": "p1",
             "collects_count": 0,
             "comment_count": 0,
-            "created_at": "2023-02-24 21:21:29",
+            "created_at": "",
             "digg_count": 0,
-            "id": "P46Vg4YB6uoytGZA-bE7",
+            "id": "",
             "look_count": 0,
-            "tags": [
-                "golang",
-                "后端",
-                "教程",
-            ],
-            "title": "后端项目搭建",
-            "updated_at": "2023-02-24 21:31:13",
-            "user_avatar": "/uploads/avatar/default.png",
+            "tags": [],
+            "title": "",
+            "updated_at": "",
+            "user_avatar": "",
             "user_id": 1,
-            "user_nick_name": "admin"
+            "user_nick_name": ""
         },
     ],
     columns: [
@@ -118,7 +117,15 @@ async function getData() {
     let c = await getCategoryListApi()
     data.categoryOptions = c.data
 }
-
+async function addArticle() {
+    await router.push({
+        name: "add_article"
+    })
+    store.addTab({
+        "name": "add_article",
+        "title": "添加文章"
+    })
+}
 getData()
 
 </script>
