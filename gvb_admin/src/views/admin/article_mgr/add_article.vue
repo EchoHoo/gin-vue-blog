@@ -10,20 +10,16 @@
 import { onUnmounted, reactive, ref } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import { imageNameListApi, uploadImageApi } from '@/api/image_api';
-import { createArticleApi, getCategoryListApi } from '@/api/article_api';
-import { getTagNameListApi } from '@/api/tag_api';
+import {  uploadImageApi } from '@/api/image_api';
+import { createArticleApi } from '@/api/article_api';
+
 import { message } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
 import { useStore } from '@/stores/store';
 import GVBArticleModal from '@/components/admin/gvb_article_model.vue'
 const store = useStore();
 const router = useRouter();
-const initData = reactive({
-    tagList: [],
-    categoryList: [],
-    bannerList: [],
-})
+
 const visible = ref(false);
 const onUploadImg = async (files, callback) => {
     const res = await Promise.all(

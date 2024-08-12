@@ -1,4 +1,3 @@
-
 <template>
     <div>
         <a-modal title="完善文章信息" @cancel="dialogShow" v-model:open="props.visible" @ok="okHandler">
@@ -43,20 +42,21 @@
 </template>
 <script setup>
 
-import {  reactive, ref  } from 'vue';
+import { reactive, ref } from 'vue';
 import 'md-editor-v3/lib/style.css';
-import { imageNameListApi,  } from '@/api/image_api';
-import {getCategoryListApi } from '@/api/article_api';
+import { imageNameListApi, } from '@/api/image_api';
+import { getCategoryListApi } from '@/api/article_api';
 import { getTagNameListApi } from '@/api/tag_api';
 const formRef = ref(null)
 const data = reactive({
     title: "",
     abstract: "",
-    banner_id: 0,
+    banner_id: null,
     category: "",
     tags: [],
     link: "",
     source: "",
+
 })
 const initData = reactive({
     tagList: [],
@@ -67,13 +67,37 @@ const props = defineProps({
     visible: {
         type: Boolean,
         default: true
-    },        
+    },
+    state: {
+        type: Object,
+        default: {
+            title: "",
+            abstract: "",
+            banner_id: null,
+            category: "",
+            tags: [],
+            link: "",
+            source: "",
+        }
+    },
+    isEdit: {
+        type: Boolean,
+        default: false
+    },
+    initDataState: {
+        type: Object,
+        default: {
+            tagOptions: [],
+            categoryOptions: [],
+            bannerOptions: [],
+        }
+    }
 })
-const emit = defineEmits(['update:visible',"ok"])
+const emit = defineEmits(['update:visible', "ok"])
 const dialogShow = () => {
     emit('update:visible', false)
 }
-function okHandler (){
+function okHandler() {
     try {
         formRef.value.validate()
     } catch (e) {
@@ -81,23 +105,31 @@ function okHandler (){
     }
     emit('ok', data)
 }
-function getLabel(label){
+function getLabel(label) {
     return label[0].props.src
 }
 async function getData() {
-    let t1 = await getTagNameListApi()
-    initData.tagList = t1.data
-    let t2 = await getCategoryListApi()
-    initData.categoryList = t2.data
-    let t3 = await imageNameListApi()
-    const list = t3.data
-    initData.bannerList = list
-    // 随机选择一张封面
-    const banner = list[Math.floor(Math.random() * list.length)]
-    data.banner_id = banner.id
+    if (!props.isEdit) {
+        // 添加文章
+        let t1 = await getTagNameListApi()
+        initData.tagList = t1.data
+        let t2 = await getCategoryListApi()
+        initData.categoryList = t2.data
+        let t3 = await imageNameListApi()
+        const list = t3.data
+        initData.bannerList = list
+        // 随机选择一张封面
+        const banner = list[Math.floor(Math.random() * list.length)]
+        data.banner_id = banner.id
+    }
+    // 编辑文章
+    if (props.isEdit) {
+        initData.tagList = props.initDataState.tagOptions
+        initData.categoryList = props.initDataState.categoryOptions
+        initData.bannerList = props.initDataState.bannerOptions
+        Object.assign(data, props.state)
+    }
 }
 getData()
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>

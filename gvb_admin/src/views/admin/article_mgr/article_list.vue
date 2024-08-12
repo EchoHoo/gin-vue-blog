@@ -1,11 +1,21 @@
 <template>
     <div>
+        <GVBArticleModal 
+        v-if="data.editVisible"
+        v-model:visible="data.editVisible" 
+        @ok="editArticleOk"
+        :state="data.state"
+        is-edit
+        :init-data-state="initData"
+        >
+
+        </GVBArticleModal>
         <GVBTable :columns="data.columns" baseURL="/api/articles" like-title="搜索文章标题" ref="gvbTable" default-delete>
             <template #add>
                 <a-button type="primary" @click="addArticle">添加</a-button>
             </template>
             <template #edit="{ record }">
-                <a-button type="primary">编辑</a-button>
+                <a-button type="primary" @click="showEditArticleModal(record)">编辑</a-button>
             </template>
             <template #cell="{ column, record, index }">
                 <template v-if="column.key === 'index'">
@@ -37,9 +47,9 @@
 
             <template #filters>
                 <a-select class="gvb_select" v-model:value="tag" style="width: 200px" allowClear @change="onFilter"
-                    :options="data.tagOptions" placeholder="筛选文章标签"></a-select>
+                    :options="initData.tagOptions" placeholder="筛选文章标签"></a-select>
                 <a-select class="gvb_select" v-model:value="category" style="width: 200px" allowClear @change="onFilter"
-                    :options="data.categoryOptions" placeholder="筛选文章分类"></a-select>
+                    :options="initData.categoryOptions" placeholder="筛选文章分类"></a-select>
             </template>
         </GVBTable>
     </div>
@@ -51,9 +61,13 @@
 import { reactive, ref } from "vue";
 import GVBTable from "@/components/admin/gvb_table.vue"
 import { getTagNameListApi } from "@/api/tag_api";
-import { getCategoryListApi } from "@/api/article_api";
+import { getCategoryListApi, updateArticleApi } from "@/api/article_api";
 import { useRouter } from "vue-router";
 import { useStore } from "@/stores/store";
+import GVBArticleModal from '@/components/admin/gvb_article_model.vue'
+import { message } from "ant-design-vue";
+import { imageNameListApi } from "@/api/image_api";
+
 const router = useRouter()
 const store = useStore()
 const tag = ref(null)
@@ -97,10 +111,23 @@ const data = reactive({
         { title: '发布时间', dataIndex: 'created_at', key: 'created_at' },
         { title: '操作', dataIndex: 'action', key: 'action' },
     ],
-    tagOptions: [],
-    categoryOptions: []
+    editVisible: false,
+    state: {
+        title: "",
+        abstract: "",
+        banner_id: 0,
+        category: "",
+        tags: [],
+        link: "",
+        source: "",
+    },
+    editID:""
 })
-
+const initData = reactive({
+    tagOptions: [],
+    categoryOptions: [],
+    bannerOptions: [],
+})
 const colorList = ["red", "blue", "green", "purple", "cyan", "orange", "pink"]
 
 function getColor(index) {
@@ -113,9 +140,11 @@ function onFilter() {
 
 async function getData() {
     let res = await getTagNameListApi()
-    data.tagOptions = res.data
+    initData.tagOptions = res.data
     let c = await getCategoryListApi()
-    data.categoryOptions = c.data
+    initData.categoryOptions = c.data
+    let t3 =await imageNameListApi()
+    initData.bannerOptions = t3.data
 }
 async function addArticle() {
     await router.push({
@@ -125,6 +154,28 @@ async function addArticle() {
         "name": "add_article",
         "title": "添加文章"
     })
+}
+function showEditArticleModal(record) {
+    data.state.title = record.title
+    data.state.abstract = record.abstract
+    data.state.banner_id = record.banner_id
+    data.state.category = record.category
+    data.state.tags = record.tags
+    data.state.link = record.link
+    data.state.source = record.source
+    data.editID = record.id
+    data.editVisible = true
+
+}
+async function editArticleOk(state) {
+    let res = await updateArticleApi(data.editID, state)
+    if (res.code){
+        message.error(res.msg)
+        return
+    }
+    message.success(res.msg)
+    data.editVisible = false
+    getData()
 }
 getData()
 
