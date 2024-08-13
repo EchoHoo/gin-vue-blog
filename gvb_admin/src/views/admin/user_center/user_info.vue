@@ -1,5 +1,41 @@
 <template>
   <div class="gvb_user_info_bg">
+
+    <a-modal title="绑定邮箱" v-model:open="bindEmailVisible">
+      <div>
+        <a-steps :current="step">
+          <a-step v-for="item in steps" :key="item.title" :title="item.title" :description="item.description" />
+        </a-steps>
+        <a-form :model="formState" name="basic" ref="formRef" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }"
+          autocomplete="off">
+          <templete v-if="step === 0">
+            <a-form-item label="邮箱地址">
+              <a-input v-model:value="formState.email" placeholder="请输入邮箱"></a-input>
+            </a-form-item>
+          </templete>
+          <templete v-if="step === 1">
+            <a-form-item label="密码">
+              <a-input v-model:value="formState.password" placeholder="请输入密码"></a-input>
+            </a-form-item>
+            <a-form-item label="验证码">
+              <a-input v-model:value="formState.code" placeholder="请输入验证码"></a-input>
+            </a-form-item>
+          </templete>
+          <templete v-if="step === 2">
+            <a-form-item label="绑定成功">
+              <span>绑定成功</span>
+            </a-form-item>
+          </templete>
+        </a-form>
+      </div>
+      <template #footer>
+        <a-button v-if="step === 1" @click="bindEmailCache">取消</a-button>
+        <a-button type="primary" v-if="step === 0" @click="sendEmailCode">下一步</a-button>
+        <a-button type="primary" v-if="step === 1" @click="step--">上一步</a-button>
+        <a-button v-if="step === 1" @click="bindEmail">确认</a-button>
+      </template>
+    </a-modal>
+
     <div class="gvb_user_info_view">
       <div class="user_head">
         个人信息
@@ -80,8 +116,8 @@
         操作
       </div>
       <div class="body actions">
-        <a-button type="primary">绑定邮箱</a-button>
-        <a-button type="primary">修改密码</a-button>
+        <a-button type="primary" @click="bindEmailVisible = true">绑定邮箱</a-button>
+        <a-button type="primary" @click="updatePasswordVisible = true">修改密码</a-button>
         <a-button type="danger">注销退出</a-button>
       </div>
 
@@ -90,10 +126,11 @@
   </div>
 </template>
 <script setup>
-import { getUserInfoApi, updateUserInfoApi } from '@/api/user_center_api';
+import { bindEmailApi, getUserInfoApi, sendEmailCodeApi, updateUserInfoApi } from '@/api/user_center_api';
 import { message } from 'ant-design-vue';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
+const formRef = ref(null)
 const userInfo = reactive({
   addr: "",
   email: "",
@@ -104,12 +141,27 @@ const userInfo = reactive({
   sign: "",
   sign_status: "",
 })
-
+const formState = reactive({
+  email: "",
+  password: "",
+  code: "",
+})
 const state = reactive({
   nick_name: "",
   link: "",
   sign: "",
 })
+const steps = [{
+  title: '绑定邮箱',
+  content: 'First-content',
+},
+{
+  title: '发送验证码',
+  content: 'Second-content',
+}]
+const step = ref(0)
+const bindEmailVisible = ref(false)
+const updatePasswordVisible = ref(false)
 
 async function getData() {
   let res = await getUserInfoApi()
@@ -134,6 +186,34 @@ async function updateUserInfo(cloumn) {
 
   }
   message.success(res.msg)
+}
+async function sendEmailCode() {
+  let res = await sendEmailCodeApi(formState.email)
+  if (res.code) {
+    message.error(res.msg)
+    return
+  }
+  message.success(res.msg)
+  step.value = 1
+}
+async function bindEmail() {
+  console.log(formState)
+
+  let res = await bindEmailApi(formState)
+  if (res.code) {
+    message.error(res.msg)
+    return
+  }
+  message.success(res.msg)
+  bindEmailCache()
+  getData()
+}
+function bindEmailCache() {
+  step.value = 0
+  bindEmailVisible.value = false
+  formState.email = ""
+  formState.code = ""
+  formState.password = ""
 }
 getData()
 
