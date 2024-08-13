@@ -9,7 +9,8 @@
         <a-form :model="formState" name="basic" ref="formRef" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }"
           autocomplete="off">
           <templete v-if="step === 0">
-            <a-form-item label="邮箱地址">
+            <a-form-item label="邮箱地址" name="email" has-feedback
+              :rules="[{ required: true, message: '请输入邮箱地址' }, { validator: validateEmail, message: '非法邮箱', trigger: 'blur' }]">
               <a-input v-model:value="formState.email" placeholder="请输入邮箱"></a-input>
             </a-form-item>
           </templete>
@@ -215,6 +216,14 @@ function bindEmailCache() {
   formState.code = ""
   formState.password = ""
 }
+let validateEmail = async (_rule, value) => {
+  const reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+  if (reg.test(value)) {
+    return Promise.resolve();
+  }
+  return Promise.reject("请输入正确的邮箱地址");
+}
+
 getData()
 
 </script>
