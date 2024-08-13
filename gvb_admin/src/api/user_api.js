@@ -24,3 +24,7 @@ export function useRemoveBatchApi(id_List){
 export function updateUserNickNameApi(data){
     return Service.put(`/api/user_role`, data)
 }
+
+export function updateUserPassWordApi(data){   
+    return Service.post(`/api/user_password`, data)
+}

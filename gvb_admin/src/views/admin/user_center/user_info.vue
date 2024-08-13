@@ -37,6 +37,23 @@
       </template>
     </a-modal>
 
+    <a-modal title="修改密码" v-model:open="updatePasswordVisible" @ok="updatePassword">
+      <a-form :model="pwdState" name="basic" ref="pwdformRef" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }"
+        autocomplete="off">
+        <a-form-item label="旧密码" name="old_pwd" has-feedback>
+          <a-input-password v-model:value="pwdState.old_pwd" placeholder="请输入旧密码"></a-input-password>
+        </a-form-item>
+
+        <a-form-item label="新密码" name="new_pwd" has-feedback>
+          <a-input-password v-model:value="pwdState.pwd" placeholder="请输入新密码"></a-input-password>
+        </a-form-item>
+        <a-form-item label="确认密码" name="re_pwd" has-feedback
+          :rules="[{ validator: validatePassword, message: '两次密码不一致', trigger: 'blur' }]">
+          <a-input-password v-model:value="pwdState.re_pwd" placeholder="确认密码"></a-input-password>
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
     <div class="gvb_user_info_view">
       <div class="user_head">
         个人信息
@@ -127,11 +144,15 @@
   </div>
 </template>
 <script setup>
+import { updateUserPassWordApi } from '@/api/user_api';
 import { bindEmailApi, getUserInfoApi, sendEmailCodeApi, updateUserInfoApi } from '@/api/user_center_api';
 import { message } from 'ant-design-vue';
 import { reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const formRef = ref(null)
+const pwdformRef = ref(null)
 const userInfo = reactive({
   addr: "",
   email: "",
@@ -163,7 +184,11 @@ const steps = [{
 const step = ref(0)
 const bindEmailVisible = ref(false)
 const updatePasswordVisible = ref(false)
-
+const pwdState = reactive({
+  old_pwd: "",
+  pwd: "",
+  re_pwd: "",
+})
 async function getData() {
   let res = await getUserInfoApi()
   Object.assign(userInfo, res.data)
@@ -184,7 +209,6 @@ async function updateUserInfo(cloumn) {
   if (res.code) {
     message.error(res.msg)
     return
-
   }
   message.success(res.msg)
 }
@@ -216,12 +240,38 @@ function bindEmailCache() {
   formState.code = ""
   formState.password = ""
 }
+
+
+async function updatePassword() {
+  try {
+    await pwdformRef.value.validate()
+  } catch (e) {
+    return
+  }
+  let res = await updateUserPassWordApi(pwdState)
+  if (res.code) {
+    message.error(res.msg)
+    return
+  }
+  message.success(res.msg)
+  updatePasswordVisible.value = false
+  setTimeout(() => {
+    router.push({ name: "login" })
+  }, 500)
+}
 let validateEmail = async (_rule, value) => {
   const reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
   if (reg.test(value)) {
     return Promise.resolve();
   }
   return Promise.reject("请输入正确的邮箱地址");
+}
+let validatePassword = async (_rule, value) => {
+
+  if (value !== pwdState.pwd) {
+    return Promise.reject("两次输入的密码不一致");
+  }
+  return Promise.resolve();
 }
 
 getData()
