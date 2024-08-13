@@ -64,12 +64,12 @@ async function emailLogin() {
   if (redirect_url === undefined) {
     setTimeout(() => {
       router.push('admin/home')
-    }, 1000)
+    }, 200)
   }
   // 跳转页面
   setTimeout(() => {
     router.push({path: redirect_url})
-  }, 1000)
+  }, 200)
 }
 </script>
 <style scoped lang="scss">

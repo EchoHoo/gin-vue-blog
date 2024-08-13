@@ -84,6 +84,11 @@ const router = createRouter({
           name:"add_article",
           component:()=>import("../views/admin/article_mgr/add_article.vue")
         },
+        {
+          path:"edit_article/:id",
+          name:"edit_article",
+          component:()=>import("../views/admin/article_mgr/edit_article.vue")
+        },
       ]
     },
   ]

@@ -16,6 +16,7 @@
             </template>
             <template #edit="{ record }">
                 <a-button type="primary" @click="showEditArticleModal(record)">编辑</a-button>
+                <a-button type="primary" @click="showEditArticleContentModal(record)">正文编辑</a-button>
             </template>
             <template #cell="{ column, record, index }">
                 <template v-if="column.key === 'index'">
@@ -166,6 +167,19 @@ function showEditArticleModal(record) {
     data.editID = record.id
     data.editVisible = true
 
+}
+
+function showEditArticleContentModal(record){
+    router.push({
+        name: "edit_article",
+        params: {
+            id: record.id
+        },
+    })
+    store.addTab({
+        "name": "edit_article",
+        "title": "编辑文章"
+    })
 }
 async function editArticleOk(state) {
     let res = await updateArticleApi(data.editID, state)

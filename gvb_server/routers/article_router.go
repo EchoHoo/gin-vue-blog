@@ -21,6 +21,7 @@ func (router RouterGroup) ArticleRouter() {
 	router.GET("articles/collects", middleware.JwtAuth(), app.ArticleCollListView)
 	router.POST("articles/collects", middleware.JwtAuth(), app.ArticleCollCreateView)
 
-	router.GET("articles/text", app.FullTextSearchView)  //全文搜索
-	router.GET("categorys", app.ArticleCategoryListView) //全文搜索
+	router.GET("articles/text", app.FullTextSearchView)           //全文搜索
+	router.GET("categorys", app.ArticleCategoryListView)          //全文搜索
+	router.GET("article/content/:id", app.ArticleContentByIDView) //根据ID得到文章内容
 }
