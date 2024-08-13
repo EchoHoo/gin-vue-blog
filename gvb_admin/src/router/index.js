@@ -19,6 +19,19 @@ const router = createRouter({
           redirect:"/admin/home"
         },
         {
+          path:"user_center",
+          name:"user_center",
+          redirect:"/admin/user_center/user_info",
+          children:[
+            {
+              path:"user_info",
+              name:"user_info",
+              component:()=>import("../views/admin/user_center/user_info.vue")
+            }
+          ]
+          
+        },
+        {
           path:"home",
           name:"home",
           component:()=>import("../views/admin/home/home.vue")
