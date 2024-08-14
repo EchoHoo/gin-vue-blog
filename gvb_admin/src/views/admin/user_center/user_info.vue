@@ -136,15 +136,13 @@
       <div class="body actions">
         <a-button type="primary" @click="bindEmailVisible = true">绑定邮箱</a-button>
         <a-button type="primary" @click="updatePasswordVisible = true">修改密码</a-button>
-        <a-button type="danger">注销退出</a-button>
+        <a-button type="primary" danger @click="logout">注销退出</a-button>
       </div>
-
-
     </div>
   </div>
 </template>
 <script setup>
-import { updateUserPassWordApi } from '@/api/user_api';
+import { logoutApi, updateUserPassWordApi } from '@/api/user_api';
 import { bindEmailApi, getUserInfoApi, sendEmailCodeApi, updateUserInfoApi } from '@/api/user_center_api';
 import { message } from 'ant-design-vue';
 import { reactive, ref } from 'vue';
@@ -240,7 +238,17 @@ function bindEmailCache() {
   formState.code = ""
   formState.password = ""
 }
-
+async function logout(){
+  let res = await logoutApi()
+  if (res.code) {
+    message.error(res.msg)
+    return
+  }
+  message.success(res.msg)
+  setTimeout(() => {
+    router.push({ name: "login" })
+  }, 500)
+}
 
 async function updatePassword() {
   try {

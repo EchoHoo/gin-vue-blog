@@ -28,3 +28,8 @@ export function updateUserNickNameApi(data){
 export function updateUserPassWordApi(data){   
     return Service.post(`/api/user_password`, data)
 }
+
+// 注销退出
+export function logoutApi(){
+    return Service.post("/api/logout")
+}

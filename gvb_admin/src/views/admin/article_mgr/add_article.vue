@@ -1,6 +1,6 @@
 <template>
     <div>
-        <GVBArticleModal v-model:visible="visible" @ok="okHandler"></GVBArticleModal>
+        <GVBArticleModal  v-model:visible="visible" @ok="okHandler"></GVBArticleModal>
         <md-editor v-model="data.content" @onUploadImg="onUploadImg" @on-save="onSave" />
     </div>
 
@@ -79,8 +79,10 @@ const onSave = (md, h) => {
 }
 
 
-async function okHandler() {
+async function okHandler(state) {
     Object.assign(data, state)
+    console.log(data)
+    
     let res = await createArticleApi(data)
     if (res.code) {
         message.error(res.msg)

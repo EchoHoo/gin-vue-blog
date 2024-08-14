@@ -85,6 +85,7 @@ func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 		res.FailWithMessage("文章不存在", c)
 		return
 	}
+	DataMap["user_id"] = article.UserID
 	err = es_ser.ArticleUpdate(cr.ID, DataMap)
 	if err != nil {
 		global.Log.Error(err)
