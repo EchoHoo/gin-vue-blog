@@ -2,12 +2,15 @@ package es_ser
 
 import (
 	"gvb_server/gvb_server/models"
+
+	"github.com/olivere/elastic/v7"
 )
 
 type Option struct {
 	models.PageInfo
 	Fields []string
 	Tag    string `form:"tag"`
+	Query  *elastic.BoolQuery
 }
 
 func (o *Option) GetFrom() int {

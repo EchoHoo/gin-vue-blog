@@ -5,14 +5,18 @@ import (
 	"gvb_server/gvb_server/models"
 	"gvb_server/gvb_server/models/res"
 	"gvb_server/gvb_server/service/es_ser"
+	"gvb_server/gvb_server/service/redis_ser"
+	"gvb_server/gvb_server/utils/jwts"
 
 	"github.com/gin-gonic/gin"
 	"github.com/liu-cn/json-filter/filter"
+	"github.com/olivere/elastic/v7"
 )
 
 type ArticleSearchRequest struct {
 	models.PageInfo
-	Tag string `json:"tag" form:"tag"`
+	Tag    string `json:"tag" form:"tag"`
+	IsUser bool   `json:"is_user" form:"is_user"`
 }
 
 func (ArticleApi) ArticleListView(c *gin.Context) {
@@ -21,10 +25,20 @@ func (ArticleApi) ArticleListView(c *gin.Context) {
 		res.FailWithCode(res.ArgumentError, c)
 		return
 	}
+	boolSearch := elastic.NewBoolQuery()
+
+	token := c.GetHeader("token")
+	if cr.IsUser {
+		claims, err := jwts.ParseToken(token)
+		if err == nil && !redis_ser.CheckLogout(token) {
+			boolSearch.Must(elastic.NewTermQuery("user_id", claims.UserID))
+		}
+	}
 	list, count, err := es_ser.CommList(es_ser.Option{
 		PageInfo: cr.PageInfo,
 		Fields:   []string{"title", "content", "category"},
 		Tag:      cr.Tag,
+		Query:    boolSearch,
 	})
 	if err != nil {
 		global.Log.Error(err)
@@ -39,5 +53,4 @@ func (ArticleApi) ArticleListView(c *gin.Context) {
 		return
 	}
 	res.OkWithList(data, int64(count), c)
-
 }

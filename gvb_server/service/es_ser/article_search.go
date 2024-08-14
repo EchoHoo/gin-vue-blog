@@ -14,19 +14,16 @@ import (
 )
 
 func CommList(option Option) (list []models.ArticleModel, count int, err error) {
-	boolSearch := elastic.NewBoolQuery()
-
 	if option.Key != "" {
 		fuzzinessQuery := elastic.NewMultiMatchQuery(option.Key, option.Fields...).
 			Fuzziness("AUTO") // 允许自动模糊匹配
-		boolSearch.Must(fuzzinessQuery)
+		option.Query.Must(fuzzinessQuery)
 	}
 	if option.Tag != "" {
-		boolSearch.Must(
+		option.Query.Must(
 			elastic.NewMultiMatchQuery(option.Tag, "tags"),
 		)
 	}
-
 	type SortField struct {
 		Field     string
 		Ascending bool
@@ -49,7 +46,7 @@ func CommList(option Option) (list []models.ArticleModel, count int, err error) 
 	}
 	res, err := global.ESClient.
 		Search(models.ArticleModel{}.Index()).
-		Query(boolSearch).
+		Query(option.Query).
 		Highlight(elastic.NewHighlight().Field("title")).
 		From(option.GetFrom()).
 		Sort(sortField.Field, sortField.Ascending).
