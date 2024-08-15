@@ -16,7 +16,7 @@ import (
 
 func (ArticleApi) ArticleCollBatchRemoveView(c *gin.Context) {
 	var cr models.ESIDListRequest
-	err := c.ShouldBindQuery(&cr)
+	err := c.ShouldBindJSON(&cr)
 	if err != nil {
 		res.FailWithCode(res.ArgumentError, c)
 		return

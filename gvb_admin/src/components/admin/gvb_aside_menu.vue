@@ -53,12 +53,26 @@ const data = reactive({
         icon: "fa-users",
         title: "个人中心",
         name: "user_center",
-        children: [{
+        children: [
+        {
             id: 24,
             icon: "fa-users",
             title: "我的信息",
             name: "user_info",
-        },]
+        },
+        {
+            id: 25,
+            icon: "fa-users",
+            title: "我的发布",
+            name: "user_article_list",
+        },
+        {
+            id: 26,
+            icon: "fa-users",
+            title: "我的收藏",
+            name: "user_collects",
+        },
+    ]
     },
     {
         id: 2,

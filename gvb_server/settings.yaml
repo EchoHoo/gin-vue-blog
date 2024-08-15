@@ -1,6 +1,6 @@
 mysql:
-  host: 1.tcp.vip.cpolar.cn
-  port: 22120
+  host: 127.0.0.1
+  port: 3306
   config: charset=utf8mb4&parseTime=True&loc=Local
   db: gvb_db
   user: root
@@ -62,8 +62,8 @@ jwt:
   expires: 96
   issuer: xx
 redis:
-  ip: 1.tcp.vip.cpolar.top
-  port: 11429
+  ip: 127.0.0.1
+  port: 6379
   password: ""
   pool_size: 100
 es:
