@@ -26,7 +26,7 @@
             <a-spin :spinning="data.spinning" tip="Loading..." :delay="500">
                 <a-table :columns="props.columns" :data-source="data.list" :row-key="record => record.id"
                     :pagination="false"
-                    :row-selection="{ selectedRowKeys: data.selectedRowKeys, onChange: onSelectChange }">
+                    :row-selection="props.isSelect? { selectedRowKeys: data.selectedRowKeys, onChange: onSelectChange }:undefined">
                     <template #bodyCell="{ column, record }">
                         <slot name="cell" v-bind="{ column, record }">
                             <template v-if="column.key === 'created_at'">
@@ -81,6 +81,10 @@ const props = defineProps({
         default: true
     },
     isDelete: {
+        type: Boolean,
+        default: true
+    },
+    isSelect: {
         type: Boolean,
         default: true
     },
@@ -154,8 +158,19 @@ async function userRemove(id) {
 }
 
 async function getData(params) {
+    if(props.baseURL === ""){
+        data.spinning = false;
+        data.list = props.list;
+        return;
+    }
     data.spinning = true;
     let res = await baseListApi(props.baseURL, params);
+    data.spinning = false;
+    if (res.data.list === undefined){
+        data.list = res.data;
+        data.count = res.data.length;
+        return;
+    }
     data.list = res.data.list;
     data.count = res.data.count;
     data.spinning = false;

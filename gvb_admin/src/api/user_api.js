@@ -25,6 +25,7 @@ export function updateUserNickNameApi(data){
     return Service.put(`/api/user_role`, data)
 }
 
+// 用户修改密码
 export function updateUserPassWordApi(data){   
     return Service.post(`/api/user_password`, data)
 }

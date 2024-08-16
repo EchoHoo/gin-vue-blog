@@ -10,6 +10,6 @@ func (router RouterGroup) MessageRouter() {
 	router.POST("messages", middleware.JwtAuth(), app.MessageCreateView)
 	router.GET("messages", middleware.JwtAuth(), app.MessageListView)
 	router.GET("messages_all", app.MessageListAllView)
-	router.GET("messages_record", middleware.JwtAuth(), app.MessageRecordView)
+	router.POST("messages_record", middleware.JwtAuth(), app.MessageRecordView)
 
 }

@@ -72,6 +72,12 @@ const data = reactive({
             title: "我的收藏",
             name: "user_collects",
         },
+        {
+            id: 27,
+            icon: "fa-users",
+            title: "消息列表",
+            name: "user_messages",
+        },
     ]
     },
     {
