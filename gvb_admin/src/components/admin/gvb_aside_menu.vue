@@ -49,152 +49,129 @@ const data = reactive({
         children: []
     },
     {
-        id: 23,
+        id: 2,
         icon: "fa-users",
         title: "个人中心",
         name: "user_center",
         children: [
-        {
-            id: 24,
-            icon: "fa-users",
-            title: "我的信息",
-            name: "user_info",
-        },
-        {
-            id: 25,
-            icon: "fa-users",
-            title: "我的发布",
-            name: "user_article_list",
-        },
-        {
-            id: 26,
-            icon: "fa-users",
-            title: "我的收藏",
-            name: "user_collects",
-        },
-        {
-            id: 27,
-            icon: "fa-users",
-            title: "消息列表",
-            name: "user_messages",
-        },
-    ]
+            {
+                id: 21,
+                icon: "fa-users",
+                title: "我的信息",
+                name: "user_info",
+            },
+            {
+                id: 22,
+                icon: "fa-users",
+                title: "我的发布",
+                name: "user_article_list",
+            },
+            {
+                id: 23,
+                icon: "fa-users",
+                title: "我的收藏",
+                name: "user_collects",
+            },
+            {
+                id: 24,
+                icon: "fa-users",
+                title: "我的消息",
+                name: "user_messages",
+            },
+        ]
     },
     {
-        id: 2,
+        id: 3,
         icon: "fa-users",
-        title: "用户列表",
+        title: "用户管理",
         name: "",
-        children: [{
-            id: 3,
-            icon: "fa-list",
-            title: "用户管理",
-            name: "user_list",
-        },]
+        children: [
+            {
+                id: 31,
+                icon: "fa-list",
+                title: "用户列表",
+                name: "user_list",
+            },
+            {
+                id: 32,
+                icon: "fa-cogs",
+                title: "群聊消息",
+                name: "chat_list",
+            },
+            {
+                id: 33,
+                icon: "fa-cogs",
+                title: "消息列表",
+                name: "message_list",
+                children: []
+            },
+        ]
     },
     {
         id: 4,
         icon: "iconfont icon-tupianguanli1",
-        title: "图片管理",
+        title: "图文管理",
         name: "",
-        children: [{
-            id: 5,
-            icon: "iconfont icon-tupianguanli1",
-            title: "图片列表",
-            name: "image_list",
-        },]
+        children: [
+            {
+                id: 41,
+                icon: "iconfont icon-tupianguanli1",
+                title: "图片管理",
+                name: "image_list",
+            },
+            {
+                id: 42,
+                icon: "fa-cogs",
+                title: "文章添加",
+                name: "add_article",
+            },
+            {
+                id: 43,
+                icon: "fa-cogs",
+                title: "文章管理",
+                name: "article_list",
+            },
+            {
+                id: 14,
+                icon: "fa-cogs",
+                title: "标签管理",
+                name: "tag_list",
+            },
+        ]
     },
     {
-        id: 6,
-        icon: "iconfont icon-tupianguanli1",
-        title: "广告管理",
-        name: "",
-        children: [{
-            id: 7,
-            icon: "iconfont icon-tupianguanli1",
-            title: "广告列表",
-            name: "advert_list",
-        },]
-    },
-    {
-        id: 8,
-        icon: "iconfont icon-tupianguanli1",
-        title: "菜单管理",
-        name: "",
-        children: [{
-            id: 9,
-            icon: "iconfont icon-tupianguanli1",
-            title: "菜单列表",
-            name: "menu_list",
-        },]
-    },
-    {
-        id: 10,
-        icon: "fa-cogs",
-        title: "日志管理",
-        name: "",
-        children: [{
-            id: 11,
-            icon: "fa-cog",
-            title: "日志管理",
-            name: "log_list",
-        },]
-    },
-    {
-        id: 12,
-        icon: "fa-cogs",
-        title: "群聊消息",
-        name: "chat_list",
-        children: []
-    },
-    {
-        id: 13,
-        icon: "fa-cogs",
-        title: "消息列表",
-        name: "message_list",
-        children: []
-    },
-    {
-        id: 14,
-        icon: "fa-cogs",
-        title: "标签列表",
-        name: "tag_list",
-        children: []
-    },
-    {
-        id: 15,
+        id: 5,
         icon: "fa-cogs",
         title: "系统管理",
         name: "",
         children: [
             {
-                id: 16,
+                id: 51,
                 icon: "fa-cogs",
                 title: "网站设置",
                 name: "system_site",
-            }
-        ]
-    },
-    {
-        id: 17,
-        icon: "fa-cogs",
-        title: "文章管理",
-        name: "",
-        children: [
-            {
-                id: 18,
-                icon: "fa-cogs",
-                title: "文章列表",
-                name: "article_list",
             },
             {
-                id: 19,
-                icon: "fa-cogs",
-                title: "文章添加",
-                name: "add_article",
+                id: 52,
+                icon: "fa-cog",
+                title: "系统日志",
+                name: "log_list",
+            },
+            {
+                id: 53,
+                icon: "iconfont icon-tupianguanli1",
+                title: "菜单管理",
+                name: "menu_list",
+            },
+            {
+                id: 54,
+                icon: "iconfont icon-tupianguanli1",
+                title: "广告管理",
+                name: "advert_list",
             }
         ]
     },
+
     ],
     openKeys: []
 });
