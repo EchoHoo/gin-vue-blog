@@ -118,8 +118,9 @@ async function getData() {
         let t3 = await imageNameListApi()
         const list = t3.data
         initData.bannerList = list
-        // 随机选择一张封面
-        const banner = list[Math.floor(Math.random() * list.length)]
+        // 随机选择一张封
+      
+        const banner = list[Math.floor(Math.random() *  list.length)]
         data.banner_id = banner.id
     }
     // 编辑文章

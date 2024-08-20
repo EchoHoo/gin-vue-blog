@@ -10,8 +10,9 @@ import (
 
 type Option struct {
 	models.PageInfo
-	Debug bool
-	Likes []string // 模糊匹配的字段
+	Debug   bool
+	Likes   []string // 模糊匹配的字段
+	Preload []string // 预加载的字段
 }
 
 func ComList[T any](model T, option Option) (list []T, count int64, err error) {
@@ -37,6 +38,10 @@ func ComList[T any](model T, option Option) (list []T, count int64, err error) {
 	count = DB.Find(&list).RowsAffected
 
 	query := DB.Where(model)
+	for _, preload := range option.Preload {
+		query = query.Preload(preload)
+	}
+
 	offset := (option.PageInfo.Page - 1) * option.Limit
 	if offset < 0 {
 		offset = 0

@@ -6,7 +6,7 @@
       <div class="drop_menu">
         <a-dropdown placement="bottomRight">
           <a class="ant-dropdown-link" @click.prevent>
-            {{ store.userInfo.nick_name }}
+            {{ store.userInfo.nickname }}
             <i class="fa fa-angle-down"></i>
           </a>
           <template #overlay>
@@ -103,7 +103,8 @@
   }
   
   function goto(item) {
-    store.setCrumb([item.parentTitle, item.title])
+ 
+    // store.setCrumb([item.parentTitle, item.title])
     store.addTab({
       name: item.name,
       title: item.title,
