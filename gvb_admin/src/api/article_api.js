@@ -21,4 +21,6 @@ export function getArticleIDTitle(){
     return Service.get("/api/article_id_title")
 }
 
-
+export function getArticleCalendarApi(){
+    return Service.get("/api/article/calendar")
+}
