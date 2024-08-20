@@ -25,4 +25,6 @@ func (router RouterGroup) ArticleRouter() {
 	router.GET("categorys", app.ArticleCategoryListView)          //全文搜索
 	router.GET("article/content/:id", app.ArticleContentByIDView) //根据ID得到文章内容
 
+	router.GET("article_id_title", app.ArticleIDTitleListView)
+
 }

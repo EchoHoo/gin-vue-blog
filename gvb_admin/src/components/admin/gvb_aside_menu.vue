@@ -132,10 +132,16 @@ const data = reactive({
                 name: "article_list",
             },
             {
-                id: 14,
+                id: 44,
                 icon: "fa-cogs",
                 title: "标签管理",
                 name: "tag_list",
+            },
+            {
+                id: 45,
+                icon: "fa-cogs",
+                title: "评论管理",
+                name: "comment_list",
             },
         ]
     },

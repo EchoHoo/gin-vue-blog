@@ -16,3 +16,9 @@ export function updateArticleApi(id,data){
 export function getArticleContentApi(id){
     return Service.get("/api/article/content/"+id)
 }
+
+export function getArticleIDTitle(){
+    return Service.get("/api/article_id_title")
+}
+
+
