@@ -1,3 +1,5 @@
+import { useStore } from '@/stores/store'
+import { message } from 'ant-design-vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -11,6 +13,9 @@ const router = createRouter({
     {
       path:"/admin",
       name:"admin",
+      meta:{
+        is_login:true,
+      },
       component:()=>import("../views/admin/admin.vue"),
       children:[
         {
@@ -128,3 +133,17 @@ const router = createRouter({
 })
 
 export default router
+
+// 路由的前置守卫
+router.beforeEach((to, from, next) => {
+  const store = useStore()
+  if(to.meta.is_login && store.userInfo.role===0){
+    // 未登录且要登录
+    message.warn("需要登录")
+    router.push({name:"login"})
+    console.log("需要登录")
+    return
+  }
+  // 放行
+  next()
+})

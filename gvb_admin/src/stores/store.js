@@ -1,6 +1,17 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { message } from 'ant-design-vue'
+
+const data =   {
+  token: '', 
+  username: '', 
+  nickname: '', 
+  role: 0, 
+  user_id: 0, 
+  avatar: '',
+  exp: 1721443277.336446
+}
+
 export const useStore = defineStore('gvb', {
   state:()=>{
     return {
@@ -58,6 +69,12 @@ export const useStore = defineStore('gvb', {
     },
     removeTabAll(){
       this.tabList = [{name: 'home', title: '首页'}]
+    },
+    clear(){
+      localStorage.clear()
+      this.userInfo = data
+      this.tabList = []
+      
     },
     // 修改userInfo
     setUserInfo(info){

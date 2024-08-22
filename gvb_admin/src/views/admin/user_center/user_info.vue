@@ -142,8 +142,9 @@
   </div>
 </template>
 <script setup>
-import { logoutApi, updateUserPassWordApi } from '@/api/user_api';
+import { updateUserPassWordApi } from '@/api/user_api';
 import { bindEmailApi, getUserInfoApi, sendEmailCodeApi, updateUserInfoApi } from '@/api/user_center_api';
+import { logout } from '@/utils/logout';
 import { message } from 'ant-design-vue';
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -238,17 +239,7 @@ function bindEmailCache() {
   formState.code = ""
   formState.password = ""
 }
-async function logout(){
-  let res = await logoutApi()
-  if (res.code) {
-    message.error(res.msg)
-    return
-  }
-  message.success(res.msg)
-  setTimeout(() => {
-    router.push({ name: "login" })
-  }, 500)
-}
+
 
 async function updatePassword() {
   try {
