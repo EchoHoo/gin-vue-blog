@@ -7,7 +7,7 @@ import (
 
 func (router RouterGroup) ArticleRouter() {
 	app := api.ApiGroupApp.ArticleApi
-	router.POST("articles", middleware.JwtAuth(), app.ArticleCreateView)
+	router.POST("articles", middleware.JwtAdmin(), app.ArticleCreateView)
 	router.DELETE("articles", app.ArticleRemoveView)
 	router.GET("articles", app.ArticleListView) // 可以传入token 和 is_user 来控制用户发布的文章
 	router.PUT("articles", app.ArticleUpdateView)

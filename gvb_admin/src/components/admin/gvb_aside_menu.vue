@@ -181,6 +181,46 @@ const data = reactive({
     ],
     openKeys: []
 });
+
+if (store.userInfo.role === 2) {
+    data.menuList =
+        [{
+            id: 1,
+            icon: "fa-home",
+            title: "首页",
+            name: "home",
+            children: []
+        },
+        {
+            id: 21,
+            icon: "fa-users",
+            title: "我的信息",
+            name: "user_info",
+            children: []
+        },
+        {
+            id: 22,
+            icon: "fa-users",
+            title: "我的发布",
+            name: "user_article_list",
+            children: []
+        },
+        {
+            id: 23,
+            icon: "fa-users",
+            title: "我的收藏",
+            name: "user_collects",
+            children: []
+        },
+        {
+            id: 24,
+            icon: "fa-users",
+            title: "我的消息",
+            name: "user_messages",
+            children: []
+        },]
+}
+
 const router = useRouter();
 const route = useRoute();
 

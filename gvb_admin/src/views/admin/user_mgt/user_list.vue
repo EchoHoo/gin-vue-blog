@@ -3,16 +3,14 @@
         <a-modal v-model:visible="data.modalVidible" title="添加用户" @ok="handleOk">
             <a-form :model="formState" name="basic" :label-col="{ span: 4 }" :wrapper-col="{ span: 16 }" ref="formRef"
                 autocomplete="off">
-                <a-form-item label="用户名" has-feedback name="user_name"
-                    :rules="[{ required: true, message: '请输入用户名', trigger: 'blur' }]">
-                    <a-input v-model:value="formState.user_name" placeholder="用户名" />
-                </a-form-item>
-
                 <a-form-item label="昵称" has-feedback name="nick_name"
                     :rules="[{ required: true, message: '请输入昵称', trigger: 'blur' }]">
                     <a-input v-model:value="formState.nick_name" placeholder="昵称" />
                 </a-form-item>
-
+                <a-form-item label="用户名" has-feedback name="user_name"
+                    :rules="[{ required: true, message: '请输入用户名', trigger: 'blur' }]">
+                    <a-input v-model:value="formState.user_name" placeholder="用户名" />
+                </a-form-item>
                 <a-form-item label="密码" has-feedback name="password"
                     :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]">
                     <a-input-password v-model:value="formState.password" placeholder="密码" />

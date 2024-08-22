@@ -82,7 +82,8 @@ const onSave = (md, h) => {
 async function okHandler(state) {
     Object.assign(data, state)
     console.log(data)
-    
+    console.log(state)
+
     let res = await createArticleApi(data)
     if (res.code) {
         message.error(res.msg)

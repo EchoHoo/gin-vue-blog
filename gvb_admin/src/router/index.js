@@ -137,6 +137,7 @@ export default router
 // 路由的前置守卫
 router.beforeEach((to, from, next) => {
   const store = useStore()
+  
   if(to.meta.is_login && store.userInfo.role===0){
     // 未登录且要登录
     message.warn("需要登录")

@@ -8,8 +8,8 @@
         is-edit
         :init-data-state="initData"
         >
-
         </GVBArticleModal>
+        
         <GVBTable :columns="data.columns" baseURL="/api/articles" like-title="搜索文章标题" ref="gvbTable" default-delete>
             <template #add>
                 <a-button type="primary" @click="addArticle">添加</a-button>

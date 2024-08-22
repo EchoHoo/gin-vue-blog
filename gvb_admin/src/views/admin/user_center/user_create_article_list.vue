@@ -12,7 +12,7 @@
         </GVBArticleModal>
         <GVBTable :columns="data.columns" baseURL="/api/articles?is_user=true" like-title="搜索文章标题" ref="gvbTable" default-delete>
             <template #add>
-                <a-button type="primary" @click="addArticle">添加</a-button>
+                <a-button v-if="store.userInfo.role !== 2" type="primary" @click="addArticle">添加</a-button>
             </template>
             <template #edit="{ record }">
                 <a-button type="primary" @click="showEditArticleModal(record)">编辑</a-button>

@@ -7,6 +7,7 @@ import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import { ref, watch, onMounted } from "vue";
 import { uploadImageApi } from "@/api/image_api";
+import { message } from 'ant-design-vue';
 
 const props = defineProps({
     content: {
@@ -37,7 +38,14 @@ const onUploadImg = async (files, callback) => {
             return uploadImageApi(file)
         })
     );
-    callback(res.map((item) => item.data));
+    callback(res.map((item) => {
+        if (item.code){
+            message.error(item.msg)
+            return
+        }
+        message.success("上传成功")
+        return item.data
+    }));
 };
 
 const onSave = (md, h) => {

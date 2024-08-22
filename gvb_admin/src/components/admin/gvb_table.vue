@@ -15,7 +15,7 @@
         <div class="gvb_divider"></div>
         <div class="gvb_actions">
             <slot name="add">
-                <a-button type="primary" @click="addModal" v-if="props.isAdd">添加</a-button>
+                <!-- <a-button type="primary" @click="addModal" v-if="props.isAdd">添加</a-button> -->
             </slot>
             <slot name="batchRemove">
                 <a-button type="primary" danger @click="removeBatch"
