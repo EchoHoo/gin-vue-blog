@@ -1,9 +1,10 @@
 <template>
     <div class="base_view index_view">
         <GVBNav></GVBNav>
-        <div class="gvb_banner">
-            <img src="https://c-ssl.duitang.com/uploads/blog/202007/22/20200722113343_4893c.jpeg" alt="">
-        </div>
+        <GVBBanner url="https://c-ssl.duitang.com/uploads/blog/202007/22/20200722113343_4893c.jpeg" slogan="xxx"
+            abstract="abstract" :is-article=false>
+
+        </GVBBanner>
         <div class="gvb_base_container">
             <div class="gvb_inner_container">
 
@@ -17,6 +18,7 @@
 
 <script setup>
 import GVBNav from "@/components/gvb_nav.vue"
+import GVBBanner from "@/components/gvb_banner.vue"
 </script>
 
 
@@ -39,18 +41,6 @@ import GVBNav from "@/components/gvb_nav.vue"
 
 
 
-    .gvb_banner {
-        height: 600px;
-        width: 100%;
-        background-color: #2b3539;
-        overflow: hidden;
 
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-    }
 }
 </style>
