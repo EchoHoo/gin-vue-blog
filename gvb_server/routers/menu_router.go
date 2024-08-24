@@ -11,4 +11,5 @@ func (router RouterGroup) MenuRouter() {
 	router.PUT("menu/:id", app.MenuUpdateView)
 	router.DELETE("menus", app.MenuRemoveView)
 	router.GET("menus/:id", app.MenuDetailView)
+	router.GET("menus/detail", app.MenuDetailByPathView)
 }

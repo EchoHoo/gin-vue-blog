@@ -11,7 +11,6 @@
                         :typeSpeed="100" :backSpeed="50">
                         <span class="typing"></span>
                     </VueTyped>
-
                 </template>
 
             </div>
@@ -57,10 +56,9 @@ const data = reactive({
     banner_time: 6,
     banners: [],
 })
-console.log(data)
+
 async function getData() {
     if (!props.isArticle) {
-
         let res = await getMenuDetailApi(route.path)
         data.slogan = res.data.slogan
         data.abstract = res.data.abstract || [];
