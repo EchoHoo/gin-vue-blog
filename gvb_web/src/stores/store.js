@@ -50,6 +50,7 @@ export const useStore = defineStore('gvb', {
         name: tab.name,
         title: tab.title
       })
+      this.saveTabs()
     },
     saveTabs(){
       localStorage.setItem('tabs', JSON.stringify(this.tabList))

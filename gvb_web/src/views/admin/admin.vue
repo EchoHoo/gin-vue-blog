@@ -13,11 +13,11 @@
           </a-breadcrumb>
         </div>
         <div class="right">
-          <div class="icon_actions">   
-            <i class="fa fa-home"></i>
+          <div class="icon_actions">
+            <i class="fa fa-home" @click="backToHome"></i>
             <GVBTheme></GVBTheme>
 
-            <i class="fa fa-arrows-alt"></i>   
+            <i class="fa fa-arrows-alt"></i>
           </div>
           <GVBUserInfo :is-avatar="true">
           </GVBUserInfo>
@@ -44,59 +44,71 @@ import GVBTheme from "../../components/gvb_theme.vue"
 import GVBAside from "../../components/admin/gvb_aside.vue"
 import GVBUserInfo from "../../components/gvb_user_info.vue"
 import GVBTabs from "../../components/admin/gvb_tabs.vue"
-import {ref} from "vue";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
+function backToHome() {
+  router.push("/")
 
+}
 </script>
 
 <style lang="scss">
-.gvb_admin{
+.gvb_admin {
   display: flex;
-  width:100%;
-  aside{
-    width:240px;
+  width: 100%;
+
+  aside {
+    width: 240px;
     height: 100vh;
     background: var(--gradient_bg);
 
   }
-  
-  .main{
-    width:calc(100% - 240px);
+
+  .main {
+    width: calc(100% - 240px);
     height: 100vh;
     overflow-y: auto;
 
-    .actions{
+    .actions {
       align-items: center;
     }
-    .right{
+
+    .right {
 
       align-items: center;
       display: flex;
-      .icon_actions{
-        margin-right:20px;
-        i{
-          margin-left:10px;
+
+      .icon_actions {
+        margin-right: 20px;
+
+        i {
+          margin-left: 10px;
           cursor: pointer;
-          color:var(--text)
+          color: var(--text)
         }
-        i:hover{
-          color:var(--active)
-        }
-      }
-      .avatar{
-        img{
-          width:40px;
-          height:40px;
-          border-radius:50%;
+
+        i:hover {
+          color: var(--active)
         }
       }
-      .drop_menu{
+
+      .avatar {
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+        }
+      }
+
+      .drop_menu {
         margin-left: 10px;
         color: var(--text);
       }
     }
-   
-    header{
+
+    header {
       height: 60px;
       padding: 0 20px;
       display: flex;
@@ -105,24 +117,23 @@ import {ref} from "vue";
       justify-content: space-between;
       align-items: center;
     }
-    .tabs{
-      height:30px;
-      border-color:var(--order);
+
+    .tabs {
+      height: 30px;
+      border-color: var(--order);
       border: 1px solid var(--order);
-      background-color:var(--card_bg)
+      background-color: var(--card_bg)
     }
-    main{
+
+    main {
       background: var(--bg);
       height: calc(100vh - 90px);
       padding: 20px;
-      .gvb_view{
 
-      }
+      .gvb_view {}
     }
   }
 }
-
-
 </style>
 
 <style>
@@ -141,7 +152,8 @@ import {ref} from "vue";
   opacity: 1;
 }
 
-.fade-leave-active, .fade-enter-active {
+.fade-leave-active,
+.fade-enter-active {
   transition: all 0.3s ease-out;
 }
 </style>
