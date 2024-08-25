@@ -7,9 +7,10 @@
             <div class="gvb_inner_container gvb_index_main">
                 <div class="left">
                     <GVBNews></GVBNews>
+                    <GVBArticleCalendarCard style="margin-top: 20px"></GVBArticleCalendarCard>
                 </div>
                 <div class="right">
-
+                    1
                 </div>
             </div>
         </div>
@@ -23,6 +24,7 @@
 import GVBNav from "@/components/gvb_nav.vue"
 import GVBBanner from "@/components/gvb_banner.vue"
 import GVBNews from "@/components/index/gvb_news.vue"
+import GVBArticleCalendarCard from "@/components/index/gvb_article_calendar.vue"
 </script>
 
 
@@ -44,7 +46,7 @@ import GVBNews from "@/components/index/gvb_news.vue"
     }
 }
 
-.gvb_index_main {
+.index_view {
     .gvb_inner_container {
         display: flex;
         justify-content: space-between;
