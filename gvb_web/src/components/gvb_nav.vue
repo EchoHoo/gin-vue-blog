@@ -10,7 +10,7 @@
 
             </div>
             <div class="left">
-                <span v-for="item in data.menuNameList" :key="item.id">
+                <span v-for="item in store.navList" :key="item.id">
                     <router-link :to="item.path">{{ item.title }}</router-link>
                 </span>
                 <span class="search"><i class="fa fa-search"></i></span>
@@ -24,7 +24,7 @@
     </div>
 </template>
 <script setup>
-import { getMenuNameListApi } from "@/api/menu_api";
+
 import GVBUserInfo from "@/components/gvb_user_info.vue"
 import { useStore } from "@/stores/store";
 import { reactive } from "vue";
@@ -40,13 +40,9 @@ const props = defineProps({
 
 const data = reactive({
     is_show: false,
-    menuNameList: [],
 })
 
 async function getInit() {
-    let res = await getMenuNameListApi()
-    data.menuNameList = res.data
-
     if (props.is_show) {
         data.is_show = true
     } else {
