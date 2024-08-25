@@ -191,7 +191,7 @@ func (a *ArticleModel) Create() (err error) {
 func (a *ArticleModel) ISExistData() bool {
 	boolSearch := elastic.NewBoolQuery()
 	boolSearch.Must(
-		elastic.NewTermQuery("keyword", a.Keyword),
+		elastic.NewTermQuery("keyword", a.Title),
 	)
 
 	res, err := global.ESClient.
