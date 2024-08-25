@@ -10,7 +10,10 @@
                     <GVBArticleCalendarCard style="margin-top: 20px"></GVBArticleCalendarCard>
                 </div>
                 <div class="right">
-                    <GVBTagCloud></GVBTagCloud>
+                    <GVBAdvertCard></GVBAdvertCard>
+                    <GVBTagCloud style="margin-top: 20px"></GVBTagCloud>
+                    <GVBSiteCard style="margin-top: 20px"></GVBSiteCard>
+                    <GVBFadeBackCard style="margin-top: 20px"></GVBFadeBackCard>
                 </div>
             </div>
         </div>
@@ -26,6 +29,9 @@ import GVBBanner from "@/components/gvb_banner.vue"
 import GVBNews from "@/components/index/gvb_news.vue"
 import GVBArticleCalendarCard from "@/components/index/gvb_article_calendar.vue"
 import GVBTagCloud from "@/components/index/gvb_tag_card.vue"
+import GVBSiteCard from "@/components/index/gvb_site_card.vue"
+import GVBAdvertCard from "@/components/index/gvb_advertis_card.vue"
+import GVBFadeBackCard from "@/components/index/gvb_fade_back_card.vue"
 </script>
 
 
@@ -59,8 +65,8 @@ import GVBTagCloud from "@/components/index/gvb_tag_card.vue"
 
     .right {
         width: 396px;
-    }
 
+    }
 
 }
 </style>
