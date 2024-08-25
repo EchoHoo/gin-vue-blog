@@ -24,3 +24,7 @@ export function getArticleIDTitle(){
 export function getArticleCalendarApi(){
     return Service.get("/api/article/calendar")
 }
+
+export function getArticleListApi(params){
+    return Service.get("/api/articles",{params})
+}
