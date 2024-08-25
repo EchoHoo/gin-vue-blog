@@ -38,9 +38,5 @@ import GVBBanner from "@/components/gvb_banner.vue"
             margin-top: 20px;
         }
     }
-
-
-
-
 }
 </style>
