@@ -24,6 +24,16 @@ const router = createRouter({
           path:"news",
           name:"news",
           component:()=>import("../views/web/news.vue"),
+        },
+        {
+          path:"search",
+          name:"search",
+          component:()=>import("../views/web/search.vue"),
+        },
+        {
+          path:"chat_group",
+          name:"chat_group",
+          component:()=>import("../views/web/chat_group.vue"),
         }
       ]
     },
