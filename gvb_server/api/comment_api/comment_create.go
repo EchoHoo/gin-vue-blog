@@ -65,7 +65,7 @@ func (CommentApi) CommentCreateView(c *gin.Context) {
 		UserID:          claims.UserID,
 	})
 	// 给文章的评论数 + 1
-	redis_ser.NewCommentDigg().Set(cr.ArticleID)
+	redis_ser.NewCommentCount().Set(cr.ArticleID)
 	res.OKWithMessage("评论成功", c)
 
 }

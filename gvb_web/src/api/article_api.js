@@ -40,3 +40,8 @@ export function articleDiggApi(id) {
 export function articleCollectApi(id) {
     return Service.post("/api/articles/collects", { "id": id })
 }
+
+export function searchArticleApi(params){
+    return Service.get("/api/articles/text",{ params })
+
+}

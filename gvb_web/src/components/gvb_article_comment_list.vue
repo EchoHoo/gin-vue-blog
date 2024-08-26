@@ -1,6 +1,6 @@
 <template>
     <div class="gvb_article_comment_list">
-        <div class="gvb_comment_item" v-for="item in data.list" :key="item.id">
+        <div class="gvb_comment_item" v-for="item in data.list" :key="item.model.id">
             <div class="avatar">
                 <img :src="item.user.avatar" alt="">
             </div>
@@ -10,10 +10,11 @@
                     {{ item.content }}
                 </div>
                 <div class="info">
-                    <span class="date">{{ getFormatDate(item.created_at) }}</span>
-                    <span class="apply" @click="showApply(item.id, item.user.nick_name)">回复 ({{ item.comment_count
-                        }})</span>
-                    <a-popconfirm title="确定删除这条评论吗" ok-text="删除" cancel-text="取消" @confirm="removeComment(item.id)">
+                    <span class="date">{{ getFormatDate(item.model.created_at) }}</span>
+                    <span class="apply" @click="showApply(item.model.id, item.user.nick_name)">回复 ({{
+                        item.comment_count }})</span>
+                    <a-popconfirm title="确定删除这条评论吗" ok-text="删除" cancel-text="取消"
+                        @confirm="removeComment(item.model.id)">
                         <span class="delete" v-if="role === 1 || user_id === item.user_id">删除</span>
                     </a-popconfirm>
 
@@ -21,7 +22,7 @@
 
                 <div class="sub_comment_list">
                     <div class="sub_comment_item" v-for="sub in item.sub_comments" v-if="item.sub_comments.length"
-                        :key="sub.id">
+                        :key="sub.model.id">
                         <div class="sub_avatar">
                             <img :src="sub.user.avatar" alt="">
                         </div>
@@ -31,11 +32,11 @@
                                     }}</span>
                             </div>
                             <div class="info">
-                                <span class="date">{{ getFormatDate(sub.created_at) }}</span>
+                                <span class="date">{{ getFormatDate(sub.model.created_at) }}</span>
 
                                 <a-popconfirm title="确定删除这条评论吗" ok-text="删除" cancel-text="取消"
-                                    @confirm="removeComment(sub.id)">
-                                    <span class="delete" @click="removeComment(sub.id)"
+                                    @confirm="removeComment(sub.model.id)">
+                                    <span class="delete" @click="removeComment(sub.model.id)"
                                         v-if="role === 1 || user_id === sub.user_id">删除</span>
                                 </a-popconfirm>
 
@@ -43,7 +44,7 @@
 
                         </div>
                     </div>
-                    <div class="sub_comment_apply" v-if="state.parent_comment_id === item.id">
+                    <div class="sub_comment_apply" v-if="state.parent_comment_id === item.model.id">
                         <img :src="store.userInfo.avatar" alt="" class="user_avatar">
                         <a-input class="comment_ipt" @keydown.ctrl.enter="apply" v-model:value="state.content"
                             :placeholder="'回复 @ ' + state.nick_name"></a-input>
@@ -59,7 +60,7 @@
 import { useRoute } from "vue-router";
 import { commentCreateApi, getArticleCommentListApi, commentRemoveApi } from "@/api/comment_api";
 import { reactive } from "vue";
-import { getFormatDate,getFormatDateYMD } from "@/utils/data";
+import { getFormatDate } from "@/utils/data";
 import { useStore } from "@/stores/store";
 import { message } from "ant-design-vue";
 
@@ -73,11 +74,13 @@ const data = reactive({
             "comment_count": 0,
             "comment_model": "",
             "content": "",
-            "created_at": "",
             "digg_count": 0,
-            "id": 0,
             "parent_comment_id": 0,
             "sub_comments": [],
+            "model": {
+                "id": "",
+                "created_at": "",
+            },
             "user": {
                 "addr": "",
                 "avatar": "",
@@ -116,8 +119,8 @@ async function getData() {
 function formatComments(comments) {
     return comments.map(comment => {
         // 格式化每条评论的创建时间
-        comment.created_at = getFormatDate(comment.model.created_at);
-        
+        comment.created_at = getFormatDate(comment.created_at);
+
         // 如果有子评论，则递归地格式化子评论
         if (comment.sub_comments && comment.sub_comments.length > 0) {
             comment.sub_comments = formatComments(comment.sub_comments);
@@ -140,6 +143,10 @@ function formatComments(comments) {
 // }
 
 function showApply(parentID, nick_name) {
+    console.log("Called showApply with parentID:", parentID, "and nickName:", nick_name);
+    if (!parentID) {
+        console.error("parentID is undefined");
+    }
     state.content = ""
     state.parent_comment_id = parentID
     state.nick_name = nick_name
@@ -176,6 +183,7 @@ defineExpose({
 })
 
 getData()
+console.log(data.list);  // 查看所有评论数据以确认id是否正确设置
 
 </script>
 

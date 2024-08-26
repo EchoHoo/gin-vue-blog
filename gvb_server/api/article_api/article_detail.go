@@ -23,7 +23,7 @@ func (ArticleApi) ArticleDetailView(c *gin.Context) {
 		res.FailWithCode(res.ArgumentError, c)
 		return
 	}
-	redis_ser.NewLook().Get(cr.ID)
+	redis_ser.NewLook().Set(cr.ID)
 	model, err := es_ser.CommDetail(cr.ID)
 	if err != nil {
 		res.FailWithMessage(err.Error(), c)

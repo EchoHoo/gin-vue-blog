@@ -13,7 +13,9 @@
                 <span v-for="item in store.navList" :key="item.id">
                     <router-link :to="item.path">{{ item.title }}</router-link>
                 </span>
-                <span class="search"><i class="fa fa-search"></i></span>
+                <span class="search">
+                    <GVBTestSearch></GVBTestSearch>
+                </span>
             </div>
             <div class="right">
                 <span class="login_btn" v-if="store.userInfo.role === 0"><router-link
@@ -28,7 +30,7 @@
 import GVBUserInfo from "@/components/gvb_user_info.vue"
 import { useStore } from "@/stores/store";
 import { reactive } from "vue";
-
+import GVBTestSearch from "@/components/gvb_text_search.vue"
 
 const store = useStore();
 const props = defineProps({
