@@ -28,3 +28,15 @@ export function getArticleCalendarApi(){
 export function getArticleListApi(params){
     return Service.get("/api/articles",{params})
 }
+
+export function getArticleDetailApi(id){
+    return Service.get("/api/article/" + id)
+}
+
+export function articleDiggApi(params){
+    return Service.post("/api/digg/article",{params})
+}
+
+export function articleCollectApi(params){
+    return Service.post("/api/articles/collects",{params})
+}

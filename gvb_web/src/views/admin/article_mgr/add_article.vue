@@ -1,7 +1,7 @@
 <template>
     <div>
         <GVBArticleModal  v-model:visible="visible" @ok="okHandler"></GVBArticleModal>
-        <md-editor v-model="data.content" @onUploadImg="onUploadImg" @on-save="onSave" />
+        <md-editor  v-model="data.content" @onUploadImg="onUploadImg" @on-save="onSave" />
     </div>
 
 </template>

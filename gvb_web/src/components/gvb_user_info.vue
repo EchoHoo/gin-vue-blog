@@ -32,10 +32,9 @@
   <script setup>
   import {useRoute, useRouter} from "vue-router"
 
-  import {message} from "ant-design-vue";
   import {useStore} from "@/stores/store";
   import {reactive} from "vue";
-import { logout } from "@/utils/logout";
+  import { logout } from "@/utils/logout";
   
   const router = useRouter()
   const route = useRoute()

@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 import { getFormatDate } from '@/utils/data';
 import { baseDeleteApi, baseListApi } from '@/api/base_api';
 import { message } from 'ant-design-vue';
