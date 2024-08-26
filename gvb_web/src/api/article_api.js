@@ -1,42 +1,42 @@
 import { Service } from "@/services/service";
 
-export function getCategoryListApi(){
+export function getCategoryListApi() {
     return Service.get("/api/categorys")
 }
 
-export function createArticleApi(data){
-    return Service.post("/api/articles",data)
+export function createArticleApi(data) {
+    return Service.post("/api/articles", data)
 }
 
-export function updateArticleApi(id,data){
+export function updateArticleApi(id, data) {
     data.id = id
-    return Service.put("/api/articles",data)
+    return Service.put("/api/articles", data)
 }
 
-export function getArticleContentApi(id){
-    return Service.get("/api/article/content/"+id)
+export function getArticleContentApi(id) {
+    return Service.get("/api/article/content/" + id)
 }
 
-export function getArticleIDTitle(){
+export function getArticleIDTitle() {
     return Service.get("/api/article_id_title")
 }
 
-export function getArticleCalendarApi(){
+export function getArticleCalendarApi() {
     return Service.get("/api/article/calendar")
 }
 
-export function getArticleListApi(params){
-    return Service.get("/api/articles",{params})
+export function getArticleListApi(params) {
+    return Service.get("/api/articles", { params })
 }
 
-export function getArticleDetailApi(id){
+export function getArticleDetailApi(id) {
     return Service.get("/api/article/" + id)
 }
 
-export function articleDiggApi(params){
-    return Service.post("/api/digg/article",{params})
+export function articleDiggApi(id) {
+    return Service.post("/api/digg/article",  { "id": id })
 }
 
-export function articleCollectApi(params){
-    return Service.post("/api/articles/collects",{params})
+export function articleCollectApi(id) {
+    return Service.post("/api/articles/collects", { "id": id })
 }

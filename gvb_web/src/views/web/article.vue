@@ -28,7 +28,7 @@
   
             </div>
             <div class="article_content">
-              <MdPreview 
+              <md-preview 
                :editorId="defaultID"
               :modelValue="data.content"/>
             </div>
@@ -43,15 +43,19 @@
               <div class="body">
                 <a-textarea
                     class="article_comment_ipt"
+                    v-model:value="commentData.content"
                     :auto-size="{ minRows: 6, maxRows: 6 }"
-                    placeholder="请输入文章评论"></a-textarea>
-                <a-button class="add_comment_btn" type="primary">发布</a-button>
+                    placeholder="请输入文章评论"
+                    @keydown.ctrl.enter="addCommant"
+                ></a-textarea>
+                <a-button class="add_comment_btn" @click="addCommant" type="primary">发布</a-button>
               </div>
               <div class="comment_footer">
                 <span>{{ data.look_count }}</span> 人参与，
                 <span>{{ data.comment_count }}</span> 条评论
               </div>
             </div>
+            <GVBArticleCommentList></GVBArticleCommentList>
           </article>
           <aside>
             <div class="article_user_info">
@@ -122,7 +126,8 @@
   import {MdPreview,MdCatalog} from "md-editor-v3";
   import "md-editor-v3/lib/style.css"
   import {articleDiggApi, articleCollectApi} from "@/api/article_api";
-
+  import { commentCreateApi } from "@/api/comment_api";
+  import GVBArticleCommentList from "@/components/gvb_article_comment_list.vue"
   const defaultID = 'preview-only-po';
 
   const scrollElement = document.documentElement;
@@ -134,7 +139,25 @@
     width: "auto",
     top: "60px"
   })
-
+  // 发布评论的参数
+  const commentData = reactive({
+    article_id: route.params.id,
+    content: "",
+    parent_comment_id: null,
+  })
+  async function addCommant(){
+    if (commentData.content.trim() === "") {
+      message.warn("评论内容不能为空")
+      return
+    }
+    let res = await commentCreateApi(commentData)
+    if (res.code) {
+      message.error(res.msg)
+      return
+    }
+    message.success(res.msg)
+    commentData.content = ""
+  }
   const data = reactive({
     abstract: "",
     banner_id: 0,
@@ -202,6 +225,7 @@
   
   // 文章收藏
   async function goArticleCollect() {
+    console.log(data.id)
     let res = await articleCollectApi(data.id)
     if (res.code) {
       message.error(res.msg)
@@ -297,7 +321,10 @@
     .gvb_inner_container {
       display: flex;
       justify-content: space-between;
-  
+      width: 1400px;
+      margin: auto;
+      // background-color: var(--card_bg);
+      // width: 200px;
       > article {
         width: calc(100% - 300px);
   
@@ -337,7 +364,7 @@
           margin-top: 1px;
           padding: 10px 20px;
   
-          .md-editor {
+          .md-preview {
             background-color: var(--card_bg);
           }
   
@@ -553,7 +580,7 @@
         }
   
         .item.active {
-          color: var(--active);
+          color: green;
         }
       }
     }

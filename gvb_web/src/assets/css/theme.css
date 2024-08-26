@@ -1,9 +1,9 @@
 :root{
-    --bg: #f0eeee;
+    --bg:rgb(241, 241, 241);
     --order:#f0eeee;
     --slide:#2b3539;
     --text: #17171b;
-    --card_bg: rgb(241, 241, 241);
+    --card_bg:  #f0eeee;
     --card_border: #e2e2e2;
     --active:#1782FFFF;
     --gradient_bg:linear-gradient( 135deg, #372462 10%, #9e5fca 100%);
