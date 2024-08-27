@@ -143,6 +143,10 @@ function formatComments(comments) {
 // }
 
 function showApply(parentID, nick_name) {
+    if (store.userInfo.role === 0){
+        message.warn("请先登录")
+        return
+    }
     console.log("Called showApply with parentID:", parentID, "and nickName:", nick_name);
     if (!parentID) {
         console.error("parentID is undefined");

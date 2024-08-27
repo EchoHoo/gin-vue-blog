@@ -8,4 +8,5 @@ import { useStore } from '@/stores/store';
 
 const store = useStore();
 store.loadNavList();
+store.loadSiteInfo();
 </script>
