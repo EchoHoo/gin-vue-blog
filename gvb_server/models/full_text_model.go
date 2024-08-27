@@ -16,7 +16,7 @@ type FullTextModel struct {
 }
 
 func (FullTextModel) Index() string {
-	return "article_index"
+	return "full_text_index"
 }
 func (FullTextModel) Mapping() string {
 	return `

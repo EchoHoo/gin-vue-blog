@@ -5,6 +5,7 @@ import (
 	"gvb_server/gvb_server/models"
 	"gvb_server/gvb_server/models/ctype"
 	"gvb_server/gvb_server/models/res"
+	"gvb_server/gvb_server/service/es_ser"
 	"gvb_server/gvb_server/utils/jwts"
 	"math/rand"
 	"strings"
@@ -129,6 +130,12 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 	if err != nil {
 		global.Log.Error(err)
 		res.FailWithMessage(err.Error(), c)
+		return
+	}
+	err = es_ser.AsyncArticleByFullText(article.ID, article.Title, article.Content)
+	if err != nil {
+		global.Log.Error(err)
+		res.OKWithMessage("全文索引创建失败", c)
 		return
 	}
 	res.OKWithMessage("文章发布成功", c)
