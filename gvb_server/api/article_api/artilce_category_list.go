@@ -41,7 +41,10 @@ func (ArticleApi) ArticleCategoryListView(c *gin.Context) {
 	var CategoryType T
 	json.Unmarshal(byteData, &CategoryType)
 	var categoryList = make([]CategoryResponse, 0)
-	for _, v := range CategoryType.Buckets {
+	for _, v := range CategoryType.Buckets {	
+		if v.Key == ""{
+			continue
+		}
 		categoryList = append(categoryList, CategoryResponse{
 			Label: v.Key,
 			Value: v.Key,

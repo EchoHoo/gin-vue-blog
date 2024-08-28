@@ -17,13 +17,22 @@ func (ArticleApi) FullTextSearchView(c *gin.Context) {
 
 	boolQuery := elastic.NewBoolQuery()
 	if cr.Key != "" {
-		boolQuery.Must(elastic.NewMultiMatchQuery(cr.Key, "title", "content"))
+		boolQuery.Must(elastic.NewMultiMatchQuery(cr.Key, "title", "body"))
 	}
+	if cr.Page == 0 {
+		cr.Page = 1
+	}
+	if cr.Limit == 0 {
+		cr.Limit = 10
+	}
+	from := (cr.Page - 1) * cr.Limit
+
 	result, err := global.ESClient.
 		Search(models.FullTextModel{}.Index()).
 		Query(boolQuery).
-		Highlight(elastic.NewHighlight().Field("content")).
-		Size(100).
+		Highlight(elastic.NewHighlight().Field("body")).
+		From(from).
+		Size(cr.Limit).
 		Do(context.Background())
 	if err != nil {
 		return
@@ -33,7 +42,7 @@ func (ArticleApi) FullTextSearchView(c *gin.Context) {
 	for _, hit := range result.Hits.Hits {
 		var model models.FullTextModel
 		json.Unmarshal(hit.Source, &model)
-		body, ok := hit.Highlight["content"]
+		body, ok := hit.Highlight["body"]
 		if ok {
 			model.Body = body[0]
 		}

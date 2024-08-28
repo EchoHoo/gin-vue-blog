@@ -112,6 +112,7 @@ import "md-editor-v3/lib/style.css"
 import { articleDiggApi, articleCollectApi } from "@/api/article_api";
 import { commentCreateApi } from "@/api/comment_api";
 import GVBArticleCommentList from "@/components/gvb_article_comment_list.vue"
+import { roll } from "@/utils/roll";
 const defaultID = 'preview-only-po';
 
 
@@ -245,6 +246,19 @@ onMounted(() => {
     }
     document.querySelector(".article_directory .body").style.maxHeight = rh + "px"
   }, 100)
+
+  let hash = route.hash
+  console.log(hash) // #上传文件
+  if(hash == ""){
+    return
+  }
+  setTimeout( ()=>{
+    let dom = document.querySelector(hash)
+    console.log(hash)
+    let top = dom.getBoundingClientRect().top
+    roll(top-80)
+  },800)
+ 
 })
 
 // 去评论

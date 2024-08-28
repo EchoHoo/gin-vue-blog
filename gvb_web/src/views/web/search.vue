@@ -5,7 +5,7 @@
       <div class="gvb_inner_container">
         <div class="gvb_search_head">
           <div class="gvb_search_slogn">
-            枫枫知道|搜索
+            搜索
           </div>
           <div class="gvb_search_ipt">
             <a-input placeholder="搜索你想要的内容" v-model:value="data.query.key" @keydown.enter="search"></a-input>

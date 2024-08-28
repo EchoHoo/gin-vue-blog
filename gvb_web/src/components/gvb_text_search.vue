@@ -34,13 +34,21 @@ const state = reactive({
     page: 1,
 })
 
+function normalizeSlug(slug) {
+    // 去除所有空格
+    var noSpaces = slug.replace(/\s+/g, '');
+    // 确保只有一个#
+    var normalized = noSpaces.replace(/##+/g, '#');
+    return normalized;
+}
 
 function showModal() {
     visible.value = true
 }
 
 function goto(slug) {
-    window.open("/article/" + slug, "_blank")
+    let res = normalizeSlug(slug)
+    window.open("/article/" + res, "_blank")
 }
 
 async function onSearch() {
