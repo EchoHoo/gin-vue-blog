@@ -7,11 +7,11 @@
             <div class="gvb_inner_container gvb_index_main">
                 <div class="left">
                     <GVBNews></GVBNews>
-                    <GVBArticleCalendarCard style="margin-top: 20px"></GVBArticleCalendarCard>
+                    <GVBArticleCalendarCard style="margin-top: 10px"></GVBArticleCalendarCard>
                     <GVBArticleList></GVBArticleList>
                 </div>
                 <div class="right">
-                    <GVBAdvertCard></GVBAdvertCard>
+                    <!-- <GVBAdvertCard></GVBAdvertCard> -->
                     <GVBTagCloud style="margin-top: 20px"></GVBTagCloud>
                     <GVBSiteCard style="margin-top: 20px"></GVBSiteCard>
                     <GVBFadeBackCard style="margin-top: 20px"></GVBFadeBackCard>

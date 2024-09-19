@@ -1,7 +1,7 @@
 <template>
     <div>
-        <GVBArticleModal  v-model:visible="visible" @ok="okHandler"></GVBArticleModal>
-        <md-editor  v-model="data.content" @onUploadImg="onUploadImg" @on-save="onSave" />
+        <GVBArticleModal v-model:visible="visible" @ok="okHandler"></GVBArticleModal>
+        <md-editor v-model="data.content" @onUploadImg="onUploadImg" @on-save="onSave" />
     </div>
 
 </template>
@@ -10,7 +10,7 @@
 import { onUnmounted, reactive, ref } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import {  uploadImageApi } from '@/api/image_api';
+import { uploadImageApi } from '@/api/image_api';
 import { createArticleApi } from '@/api/article_api';
 
 import { message } from 'ant-design-vue';
@@ -27,14 +27,26 @@ const onUploadImg = async (files, callback) => {
             return uploadImageApi(file);
         })
     );
-    // 处理返回结果，提取文件路径
+
+    // 处理返回结果，提取文件路径并保证路径以 / 开头
     const fileUrls = res.map((item) => {
         const data = item.data;
         if (Array.isArray(data) && data.length > 0) {
-            return data[0].file_name; // 假设每次只上传一个文件
+            let url = data[0].file_name; // 假设每次只上传一个文件
+            // 确保路径以 '/' 开头
+            if (!url) {
+                return ''; // 返回空字符串以过滤掉错误路径
+            }
+            const finalUrl = url.startsWith('/') ? url : '/' + url;
+            return finalUrl;
         }
         return '';
     }).filter(url => url !== ''); // 过滤掉空字符串
+
+    // 打印处理后的文件路径
+    console.log("Final file URLs:", fileUrls);
+
+    // 执行回调函数，传递处理后的文件路径
     callback(fileUrls);
 };
 const _data = reactive({

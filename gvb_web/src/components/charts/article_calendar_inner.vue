@@ -1,5 +1,5 @@
 <template>
-    <div id="article_calendar" style="height: 400px;">
+    <div id="article_calendar" style="height: 250px;">
 
     </div>
 </template>
@@ -43,7 +43,6 @@ async function articleCalendar() {
                 color: textColor,
             },
             padding: [15, 20],
-
         }
     }
     let option = {
@@ -66,14 +65,14 @@ async function articleCalendar() {
             }
         },
         calendar: {
-            top: 100,  // 增加顶部的间距
-            left: 50,  // 增加左边的间距
-            right: 50,  // 增加右边的间距
-            bottom: 50,  // 增加底部的间距，确保日历不会太靠近容器边缘
-            cellSize: [40, 40],  // 设置每个格子的大小为 40x40 像素
+            top: 90,  // 增加顶部的间距
+            left: 30,  // 增加左边的间距
+            right: 30,  // 增加右边的间距
+            botton: 40,  // 增加底部的间距，确保日历不会太靠近容器边缘
+            cellSize: [16, 16],  // 设置每个格子的大小为 40x40 像素
             range: '2024',  // 确保年份正确
             itemStyle: {
-                borderWidth: 1,
+                borderWidth: 0.5,
                 borderColor: '#ccc'  // 适当调整边框颜色以提高可视化效果
             },
             yearLabel: { show: false },
