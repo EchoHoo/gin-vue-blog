@@ -4,7 +4,7 @@
         <div class="gvb_base_container" :style="{ height: data.allHeight }">
             <div class="gvb_inner_container">
                 <div class="gvb_chat_head">
-                    <div class="title">【枫枫知道】在线聊天室</div>
+                    <div class="title">在线聊天室</div>
                     <div class="people_num">在线人数： 1</div>
                 </div>
                 <div class="gvb_chat_body" ref="chatBody" :style="{ height: data.setHeight }">
