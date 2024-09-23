@@ -1,0 +1,1 @@
+import{b as t,k as r,o as s,h as a}from"./index-DhileAJB.js";const u={__name:"web",setup(n){const e=t();return e.loadNavList(),e.loadSiteInfo(),(c,_)=>{const o=a("router-view");return s(),r(o)}}};export{u as default};
