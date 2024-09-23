@@ -1,0 +1,1 @@
+import{S as e}from"./index-DPYp8X5S.js";function t(r){return e.post("/api/email_login",r)}function o(r){return e.post("/api/users",r)}function s(r){return e.put("/api/user_role",r)}function a(r){return e.post("/api/user_password",r)}function p(){return e.post("/api/logout")}export{o as a,s as b,t as e,p as l,a as u};
