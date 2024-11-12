@@ -124,8 +124,10 @@ async function getData() {
 
     let websocketURL = import.meta.env.VITE_WEBSOCKET
     console.log("WebSocket URL:", websocketURL); // 添加这一行
-
-    socket = new WebSocket("ws://127.0.0.1:10800/ws" + "/chat_groups")
+    if (websocketURL === undefined){
+        websocketURL = "/ws/"
+    }
+    socket = new WebSocket(websocketURL + "/chat_groups")
     // 接收消息
     socket.onmessage = messageApply
 
