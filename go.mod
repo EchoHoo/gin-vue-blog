@@ -1,6 +1,7 @@
 module gvb_server
 
 go 1.22.0
+toolchain go1.24.1
 
 require (
 	github.com/DanPlayer/randomname v1.0.1
@@ -24,7 +25,7 @@ require (
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.3
-	golang.org/x/crypto v0.31.0
+	golang.org/x/crypto v0.35.0
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/driver/mysql v1.5.4
@@ -69,9 +70,9 @@ require (
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	golang.org/x/arch v0.7.0 // indirect
 	golang.org/x/net v0.30.0 // indirect
-	golang.org/x/sync v0.10.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/sync v0.11.0 // indirect
+	golang.org/x/sys v0.30.0 // indirect
+	golang.org/x/text v0.22.0 // indirect
 	golang.org/x/tools v0.24.0 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/protobuf v1.35.1 // indirect
